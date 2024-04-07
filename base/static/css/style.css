@@ -1,0 +1,59 @@
+body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+      .bg {
+        background-image: url("https://cloudfront-us-east-1.images.arcpublishing.com/eluniverso/AXSHUYTTPRHVZMFQZQXXNJYAXY.jpg");
+        background-color: #cccccc; /* Used if the image is unavailable */
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background: linear-gradient(to bottom, #e6e6e639, #99999932);
+
+      }
+      .container {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        position: center;
+        color: #EBA902;
+        
+      }
+      .logo {
+        max-width: 200px;
+        margin-top: 70px;
+        margin-bottom: 30px;
+      }
+      .login-form {
+        width: 300px;
+        background: #EBA902;
+        padding: 20px;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .login-form input {
+        width: calc(100% - 20px);
+        margin: 10px 0;
+        padding: 10px;
+      }
+      .login-form input[type="submit"] {
+        background: #EBA902;
+        border: 0;
+        color: rgb(149, 149, 149);
+        cursor: pointer;
+      }
+      .login-form input[type="submit"]:hover {
+        background: #EBA902;
+      }
+      h2{
+        color: #EBA902;
+        font-weight: bold;
+
+      }
+      

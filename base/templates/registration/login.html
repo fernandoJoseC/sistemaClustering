@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block content %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Visualización de Presupuesto</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+      .bg {
+        background-image: url("https://cloudfront-us-east-1.images.arcpublishing.com/eluniverso/AXSHUYTTPRHVZMFQZQXXNJYAXY.jpg");
+        background-color: #cccccc; /* Used if the image is unavailable */
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .container {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        position: center;
+        
+    
+      }
+      .logo {
+        max-width: 200px;
+        margin-top: 70px;
+        margin-bottom: 30px;
+      }
+      .login-form {
+        margin-top: 45px;
+        width: 300px;
+        background: #EBA902;
+        padding: 20px;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .login-form input {
+        width: calc(100% - 20px);
+        margin: 10px 0;
+        padding: 10px;
+      }
+      .login-form input[type="submit"] {
+        background: #d63384;
+        border: 0;
+        color: white;
+        cursor: pointer;
+      }
+      .login-form input[type="submit"]:hover {
+        background: #c72e77;
+      }
+      h2 {
+        color: #171305;
+        font-size: 35px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <div class="container">
+        <img
+          src="https://international-sustainable-campus-network.org/wp-content/uploads/2019/10/LogoUIDE-e1656538532276.png"
+          alt="UIDE Logo"
+          class="logo"
+        />
+
+        <h2>Bienvenido al Sistema de Visualización del Presupuesto Anual</h2>
+        <h2>de las Instituciones Públicas aplicando Minería de Datos</h2>
+
+        <div class="login-form">
+          <form method="POST">
+            {% csrf_token %} {{form}}
+            <button type="submit" class="login-button">Ingresar</button>
+          </form>
+          <button class="login-button"> 
+            <a href="{% url "base:authView"%}">Registrarme</a>
+        </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+{% endblock content %}

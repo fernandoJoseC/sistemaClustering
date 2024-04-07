@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de agrupamiento de datos por clustering</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+      }
+      .header {
+        background-color: #9c1944;
+        padding: 20px;
+        text-align: center;
+        color: white;
+      }
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(
+          50% - 10px
+        ); /* Adjust height based on the header/footer size */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto; /* Changed from a calculated height to auto */
+        padding: 20px; /* Add padding for spacing */
+        gap: 20px; /* Space between items */
+      }
+      .translation-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 60%;
+        max-width: 800px;
+      }
+      .file-types {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+      }
+      .file-type {
+        text-align: center;
+        cursor: pointer;
+      }
+      .file-type img {
+        width: 60px;
+      }
+      .upload-area {
+        border: 2px dashed #9c1944;
+        padding: 30px;
+        text-align: center;
+        color: #9c1944;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .upload-area:hover {
+        background-color: white;
+      }
+      .submit-button {
+        background-color: #9c1944;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 18px;
+      }
+      .submit-button:hover {
+        background-color: #9c1944;
+      }
+      .charts-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around; /* This will put equal space around each chart */
+        align-items: flex-start; /* Align items at the start of the container */
+      }
+      .charts-container2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around; /* This will put equal space around each chart */
+        align-items: flex-start; /* Align items at the start of the container */
+      }
+      .chart {
+        width: calc(33.3333% - 10px); /* Adjust the width to account for any margin or padding */
+        margin: 5px; /* Optional margin for spacing between charts */
+      }
+      .chart2 {
+        width: calc(50% - 10px); /* Adjust the width to account for any margin or padding */
+        margin: 5px; /* Optional margin for spacing between charts */
+      }
+      canvas {
+        max-width: 100%; /* Ensures the canvas is responsive and fits its container */
+        height: auto; /* Adjust the height to maintain aspect ratio */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Sistema de Agrupamiento de Datos por Clustering</h1>
+      <a href="{% url "base:logout" %}">Salir</a>
+    </div>
+    
+    <div class="content">
+      <div class="translation-box">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{form}}
+          <button type="submit" class="login-button">Ingresar</button>
+        </form>
+      </div>
+
+      <div class="charts-container">
+        <div class="chart">
+          <canvas id="myChart" width="900" height="800"></canvas>
+        </div>
+        <div class="chart">
+          <canvas id="myChart2" width="900" height="800"></canvas>
+        </div>
+        <div class="chart">
+          <canvas id="myChart3" width="900" height="800"></canvas>
+        </div>
+      </div>
+      <div class="charts-container2">
+        <div class="chart2">
+          <canvas id="myChart4" width="900" height="800"></canvas>
+        </div>
+        <div class="chart2">
+          <canvas id="myChart5" width="900" height="800"></canvas>
+        </div>
+      </div>
+      
+
+      <div
+        class="tableauPlaceholder"
+        id="viz1711837396862"
+        style="position: relative"
+      >
+        <noscript
+          ><a href="#"
+            ><img
+              alt=" "
+              src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv7&#47;INICIO&#47;1_rss.png"
+              style="border: none" /></a></noscript
+        ><object class="tableauViz" style="display: none">
+          <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+          <param name="embed_code_version" value="3" />
+          <param name="site_root" value="" />
+          <param name="name" value="DatosClusteringUIDEv7&#47;INICIO" />
+          <param name="tabs" value="no" />
+          <param name="toolbar" value="yes" />
+          <param
+            name="static_image"
+            value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv7&#47;INICIO&#47;1.png"
+          />
+          <param name="animate_transition" value="yes" />
+          <param name="display_static_image" value="yes" />
+          <param name="display_spinner" value="yes" />
+          <param name="display_overlay" value="yes" />
+          <param name="display_count" value="yes" />
+          <param name="language" value="es-ES" />
+          <param name="filter" value="publish=yes" />
+        </object>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          //Cargamos las variables con los datos del back
+          const data1 = JSON.parse('{{ df_json|safe }}');
+          const data2 = JSON.parse('{{ df2_json|safe }}');
+          const data3 = JSON.parse('{{ df3_json|safe }}');
+          const data4 = JSON.parse('{{ df4_json|safe }}');
+          const data5 = JSON.parse('{{ df5_json|safe }}');
+
+
+          //
+          const ctx1 = document.getElementById('myChart');
+          const chart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+              labels: data1.map(item => item.cluster),
+
+              datasets: [{
+                label: 'Presupuesto por Cluster',
+                data: data1.map(item => item.presupuesto),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+
+          const ctx2 = document.getElementById('myChart2');
+          const chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+              labels: data2.map(item => item.cluster),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Val Adj por Cluster',
+                data: data2.map(item => item.valAdj),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+          const ctx3 = document.getElementById('myChart3');
+          const chart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+              labels: data3.map(item => item.cluster),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Diferencia por Cluster',
+                data: data3.map(item => item.diferencia),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+          const ctx4 = document.getElementById('myChart4');
+          const chart4 = new Chart(ctx4, {
+            type: 'line',
+            data: {
+              labels: data4.map(item => item.tipo_contrato),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Promedio de la diferencia por Tipo de Contratación',
+                data: data4.map(item => item.promedio_diferencia),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          const ctx5 = document.getElementById('myChart5');
+          const chart5 = new Chart(ctx5, {
+            type: 'line',
+            data: {
+              labels: data5.map(item => item.provincias),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Promedio de la diferencia por Provincia',
+                data: data5.map(item => item.promedio_diferencia_provincia),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        });
+      </script>
+      
+      <script type="text/javascript">
+        var divElement = document.getElementById("viz1711837396862");
+        var vizElement = divElement.getElementsByTagName("object")[0];
+        if (divElement.offsetWidth > 800) {
+          vizElement.style.width = "100%";
+          vizElement.style.maxWidth = "2050px";
+          vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+          vizElement.style.maxHeight = "5087px";
+        } else if (divElement.offsetWidth > 500) {
+          vizElement.style.width = "100%";
+          vizElement.style.maxWidth = "2050px";
+          vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+          vizElement.style.maxHeight = "5087px";
+        } else {
+          vizElement.style.width = "100%";
+          vizElement.style.height = "2327px";
+        }
+        var scriptElement = document.createElement("script");
+        scriptElement.src =
+          "https://public.tableau.com/javascripts/api/viz_v1.js";
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      </script>
+    </div>
+  </body>
+</html>
+{% endblock content %}
