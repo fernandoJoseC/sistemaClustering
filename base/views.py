@@ -43,18 +43,21 @@ def home(request):
 
             # Aquí lees el contenido del archivo CSV
             file_path = fs.path(name)
-            datos1 = (pd.read_csv(file_path).rename(columns={
+            datos0 = (pd.read_csv(file_path).rename(columns={
                             "Código Proceso":"codProceso",
                             "Descripción compra":"desCompra",
-                            "Fecha_Publicación Jerarquía - Fecha Publicación":"fechaPub",
-                            "Fecha Adjudicación Jerarquía - Fecha Adjudicación":"fechaAdj",
+                            #"Fecha_Publicación Jerarquía - Fecha Publicación":"fechaPub",
+                            "Fecha Publicación":"fechaPub",
+                            #"Fecha Adjudicación Jerarquía - Fecha Adjudicación":"fechaAdj",
+                            "Fecha Adjudicación":"fechaAdj",
                             "CPC N9":"codCPC",
                             "Descripción CPC N9":"descCPC",
                             "Tipo Contratación":"tipoCont",
                             "Ruc Entidad":"rucEnt",
                             "Nombre Entidad":"nomEnt",
                             "Provincia Entidad":"provEnt",
-                            "Canton Entidad":"cantEnt",
+                            #"Canton Entidad":"cantEnt",
+                            "Cantón Entidad":"cantEnt",
                             "Ruc Proveedor":"rucProv",
                             "Nombre Proveedor":"nomProv",
                             "Presupuesto":"presupuesto",
@@ -63,6 +66,7 @@ def home(request):
 
             #AGREGAMOS LO DEL COLAB
             #########################################
+            datos1 = pd.DataFrame(datos0)
 
             datos2 = datos1.copy()
 
@@ -71,6 +75,7 @@ def home(request):
             datos2.fillna(0, inplace=True)
 
 
+            datos2 = datos2.drop(['codProceso'], axis=1)
             datos2 = datos2.drop(['desCompra'], axis=1)
 
 
@@ -84,16 +89,16 @@ def home(request):
             values = datos2['descCPC'].astype(str)
             datos2['descCPC_encoder'] = encoder.fit_transform(values)
 
-            values = datos2['tipoCont']
+            values = datos2['tipoCont'].astype(str)
             datos2['tipoCont_encoder'] = encoder.fit_transform(values)
 
-            values = datos2['nomEnt']
+            values = datos2['nomEnt'].astype(str)
             datos2['nomEnt_encoder'] = encoder.fit_transform(values)
 
-            values = datos2['provEnt']
+            values = datos2['provEnt'].astype(str)
             datos2['provEnt_encoder'] = encoder.fit_transform(values)
 
-            values = datos2['cantEnt']
+            values = datos2['cantEnt'].astype(str)
             datos2['cantEnt_encoder'] = encoder.fit_transform(values)
 
             datos2 = datos2.drop(['nomProv'], axis=1)
@@ -106,14 +111,15 @@ def home(request):
             datos_clustering = datos_clustering.drop(['fechaAdj', 'descCPC', 'tipoCont', 'nomEnt', 'provEnt', 'cantEnt'], axis=1)
 
             #Valores min y max para el rango
-            min_value = datos_clustering["valAdj"].min()
-            max_value = datos_clustering["valAdj"].max()
+            min_value = datos_clustering['valAdj'].min()
+            max_value = datos_clustering['valAdj'].max()
 
             # Definir los rangos y etiquetas para clasificar 'valor_adjudicado'
             rangos = range(0, 50000001, 100)  # Ajusta los rangos según tus necesidades
             etiquetas = ["{0} - {1}".format(i, i + 99) for i in range(0, 50000000, 100)]
 
             # Clasificar 'valor_adjudicado' por rangos utilizando pd.cut
+
             datos_clustering["grupo_valAdj"] = pd.cut(datos_clustering['valAdj'], bins=rangos, right=False, labels=etiquetas)
 
             values = datos_clustering['grupo_valAdj']
