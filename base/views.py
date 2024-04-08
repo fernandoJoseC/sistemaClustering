@@ -5,7 +5,6 @@ from base.forms import DocumentForm
 import pandas as pd
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-import streamlit as st
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from sklearn.preprocessing import LabelEncoder
