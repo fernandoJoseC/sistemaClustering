@@ -1,6 +1,7 @@
 from django.db import models
 
 TIPO_CONT_CHOICES = [
+    ('Todos', 'Todos'),
     ('Adquisición de bienes inmuebles','Adquisición de bienes inmuebles'),
     ('Arrendamiento de bienes inmuebles', 'Arrendamiento de bienes inmuebles'),
     ('Asesoría y Patrocinio Jurídico', 'Asesoría y Patrocinio Jurídico'),
@@ -26,6 +27,7 @@ TIPO_CONT_CHOICES = [
     ('Transporte de correo interno o internacional', 'Transporte de correo interno o internacional'),
 ]
 PROV_ENT_CHOICES = [
+    ('TODOS', 'TODOS'),
     ('AZUAY', 'AZUAY'),
     ('BOLIVAR', 'BOLIVAR'),
     ('CAÑAR', 'CAÑAR'),
@@ -52,6 +54,7 @@ PROV_ENT_CHOICES = [
     ('ZAMORA CHINCHIPE', 'ZAMORA CHINCHIPE'),
 ]
 NOM_ENT_CHOICES = [
+    ('TODOS','TODOS'),
     ('CORPORACION NACIONAL DE TELECOMUNICACIONES','CORPORACION NACIONAL DE TELECOMUNICACIONES'),
     ('GOBIERNO AUTONOMO DESCENTRALIZADO INTERCULTURAL Y PLURINACIONAL DEL MUNICIPIO DE CAYAMBE','GOBIERNO AUTONOMO DESCENTRALIZADO INTERCULTURAL Y PLURINACIONAL DEL MUNICIPIO DE CAYAMBE'),
     ('SERVICIO DE RENTAS INTERNAS','SERVICIO DE RENTAS INTERNAS'),
@@ -10101,6 +10104,6 @@ NOM_ENT_CHOICES = [
 # Create your models here.
 class Document(models.Model):
     document = models.FileField(upload_to='docs/' )
-    tipo_cont = models.CharField(max_length=255,choices=TIPO_CONT_CHOICES, default="LOJA")
-    prov_ent = models.CharField(max_length=255, choices=PROV_ENT_CHOICES, default="LOJA")
-    nom_ent = models.CharField(max_length=255, choices=NOM_ENT_CHOICES, default="LOJA")
+    tipo_cont = models.CharField(max_length=255,choices=TIPO_CONT_CHOICES, default="Todos")
+    prov_ent = models.CharField(max_length=255, choices=PROV_ENT_CHOICES, default="TODOS")
+    nom_ent = models.CharField(max_length=255, choices=NOM_ENT_CHOICES, default="TODOS")

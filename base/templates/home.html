@@ -121,21 +121,51 @@
 
       <div class="charts-container">
         <div class="chart">
+          <h2>Total del presupuesto por cluster</h2>
+          <h5>Este gráfico representa el total del presupuesto por cada tipo de cluster</h5>
           <canvas id="myChart" width="900" height="800"></canvas>
         </div>
         <div class="chart">
+          <h2>Total del valor adjudicado por cluster</h2>
+          <h5>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</h5>
           <canvas id="myChart2" width="900" height="800"></canvas>
         </div>
         <div class="chart">
+          <h2>Total del promedio de la diferencia por cluster</h2>
+          <h5>Este gráfico representa el total del promedio de la diferencia por cada tipo de cluster, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada cluster, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</h5>
           <canvas id="myChart3" width="900" height="800"></canvas>
         </div>
       </div>
       <div class="charts-container2">
         <div class="chart2">
+          <h2>Promedio de la diferencia por tipo de contratación cluster 0</h2>
+          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</h5>
           <canvas id="myChart4" width="900" height="800"></canvas>
         </div>
         <div class="chart2">
+          <h2>Promedio de la diferencia por tipo de contratación cluster 1</h2>
+          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</h5>
           <canvas id="myChart5" width="900" height="800"></canvas>
+        </div>
+        <div class="chart2">
+          <h2>Promedio de la diferencia por tipo de contratación cluster 2</h2>
+          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</h5>
+          <canvas id="myChart6" width="900" height="800"></canvas>
+        </div>
+        <div class="chart2">
+          <h2>Promedio de la diferencia por provincia cluster 0</h2>
+          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</h5>
+          <canvas id="myChart7" width="900" height="800"></canvas>
+        </div>
+        <div class="chart2">
+          <h2>Promedio de la diferencia por provincia cluster 1</h2>
+          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</h5>
+          <canvas id="myChart8" width="900" height="800"></canvas>
+        </div>
+        <div class="chart2">
+          <h2>Promedio de la diferencia por provincia cluster 2</h2>
+          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</h5>
+          <canvas id="myChart9" width="900" height="800"></canvas>
         </div>
       </div>
       
@@ -180,6 +210,10 @@
           const data3 = JSON.parse('{{ df3_json|safe }}');
           const data4 = JSON.parse('{{ df4_json|safe }}');
           const data5 = JSON.parse('{{ df5_json|safe }}');
+          const data6 = JSON.parse('{{ df6_json|safe }}');
+          const data7 = JSON.parse('{{ df7_json|safe }}');
+          const data8 = JSON.parse('{{ df8_json|safe }}');
+          const data9 = JSON.parse('{{ df9_json|safe }}');
 
 
           //
@@ -192,8 +226,8 @@
               datasets: [{
                 label: 'Presupuesto por Cluster',
                 data: data1.map(item => item.presupuesto),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                backgroundColor: ['rgb(156,25,68)', 'rgb(235,169,2)', 'rgb(224,225,225)'],
+                borderColor: ['rgba(156,25,68, 1)', 'rgba(235,169,2, 1)', 'rgba(224,225,225, 1)'], // Usa los datos numéricos dinámicos
                 borderWidth: 1
               }]
             },
@@ -216,8 +250,8 @@
               datasets: [{
                 label: 'Val Adj por Cluster',
                 data: data2.map(item => item.valAdj),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                backgroundColor: ['rgb(156,25,68)', 'rgb(235,169,2)', 'rgb(224,225,225)'],
+                borderColor: ['rgba(156,25,68, 1)', 'rgba(235,169,2, 1)', 'rgba(224,225,225, 1)'], // Usa los datos numéricos dinámicos
                 borderWidth: 1
               }]
             },
@@ -239,8 +273,8 @@
               datasets: [{
                 label: 'Diferencia por Cluster',
                 data: data3.map(item => item.diferencia),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                backgroundColor: ['rgb(156,25,68)', 'rgb(235,169,2)', 'rgb(224,225,225)'],
+                borderColor: ['rgba(156,25,68, 1)', 'rgba(235,169,2, 1)', 'rgba(224,225,225, 1)'],// Usa los datos numéricos dinámicos
                 borderWidth: 1
               }]
             },
@@ -257,13 +291,13 @@
           const chart4 = new Chart(ctx4, {
             type: 'line',
             data: {
-              labels: data4.map(item => item.tipo_contrato),
+              labels: data4.map(item => item.tipo_contrato_cero),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Tipo de Contratación',
-                data: data4.map(item => item.promedio_diferencia),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 0',
+                data: data4.map(item => item.promedio_diferencia_cero),
+                backgroundColor: 'rgb(156,25,68)',
+                borderColor: 'rgba(156,25,68, 1)', // Usa los datos numéricos dinámicos
                 borderWidth: 1
               }]
             },
@@ -279,13 +313,101 @@
           const chart5 = new Chart(ctx5, {
             type: 'line',
             data: {
-              labels: data5.map(item => item.provincias),
+              labels: data5.map(item => item.tipo_contrato_uno),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Provincia',
-                data: data5.map(item => item.promedio_diferencia_provincia),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)', // Usa los datos numéricos dinámicos
+                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 1',
+                data: data5.map(item => item.promedio_diferencia_uno),
+                backgroundColor: 'rgb(235,169,2)',
+                borderColor: 'rgba(235,169,2, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          const ctx6 = document.getElementById('myChart6');
+          const chart6 = new Chart(ctx6, {
+            type: 'line',
+            data: {
+              labels: data6.map(item => item.tipo_contrato_dos),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 2',
+                data: data6.map(item => item.promedio_diferencia_dos),
+                backgroundColor: 'rgb(224,225,225)',
+                borderColor: 'rgba(224,225,225, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          const ctx7 = document.getElementById('myChart7');
+          const chart7 = new Chart(ctx7, {
+            type: 'line',
+            data: {
+              labels: data7.map(item => item.provincias_cero),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Promedio de la diferencia por Provincia cluster 0',
+                data: data7.map(item => item.promedio_diferencia_provincia_cero),
+                backgroundColor: 'rgb(156,25,68)',
+                borderColor: 'rgba(156,25,68, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          const ctx8 = document.getElementById('myChart8');
+          const chart8 = new Chart(ctx8, {
+            type: 'line',
+            data: {
+              labels: data8.map(item => item.provincias_uno),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Promedio de la diferencia por Provincia cluster 1',
+                data: data8.map(item => item.promedio_diferencia_provincia_uno),
+                backgroundColor: 'rgb(235,169,2)',
+                borderColor: 'rgba(235,169,2, 1)', // Usa los datos numéricos dinámicos
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          const ctx9 = document.getElementById('myChart9');
+          const chart9 = new Chart(ctx9, {
+            type: 'line',
+            data: {
+              labels: data9.map(item => item.provincias_dos),
+              //labels: labels, // Usa las etiquetas dinámicas
+              datasets: [{
+                label: 'Promedio de la diferencia por Provincia cluster 2',
+                data: data9.map(item => item.promedio_diferencia_provincia_dos),
+                backgroundColor: 'rgb(224,225,225)',
+                borderColor: 'rgba(224,225,225, 1)', // Usa los datos numéricos dinámicos
                 borderWidth: 1
               }]
             },
