@@ -8,6 +8,10 @@ from django.core.files.storage import FileSystemStorage
 import streamlit as st
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
+from sklearn.preprocessing import LabelEncoder
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.metrics import silhouette_score
+import numpy as np
 
 # Create your views here.
 '''def home(request):
@@ -39,8 +43,137 @@ def home(request):
 
             # Aquí lees el contenido del archivo CSV
             file_path = fs.path(name)
-            datos = pd.read_csv(file_path)
-            #print(datos)
+            datos1 = (pd.read_csv(file_path).rename(columns={
+                            "Código Proceso":"codProceso",
+                            "Descripción compra":"desCompra",
+                            "Fecha_Publicación Jerarquía - Fecha Publicación":"fechaPub",
+                            "Fecha Adjudicación Jerarquía - Fecha Adjudicación":"fechaAdj",
+                            "CPC N9":"codCPC",
+                            "Descripción CPC N9":"descCPC",
+                            "Tipo Contratación":"tipoCont",
+                            "Ruc Entidad":"rucEnt",
+                            "Nombre Entidad":"nomEnt",
+                            "Provincia Entidad":"provEnt",
+                            "Canton Entidad":"cantEnt",
+                            "Ruc Proveedor":"rucProv",
+                            "Nombre Proveedor":"nomProv",
+                            "Presupuesto":"presupuesto",
+                            "Valor adjudicado":"valAdj"
+                        }))
+
+            #AGREGAMOS LO DEL COLAB
+            #########################################
+
+            datos2 = datos1.copy()
+
+            """Observamos que existen en la variable Ruc Proveedor valores NaN, los reemplazaremos por 0"""
+
+            datos2.fillna(0, inplace=True)
+
+
+            datos2 = datos2.drop(['desCompra'], axis=1)
+
+
+            datos2 = datos2.drop(['fechaPub'], axis=1)
+
+            datos2 = datos2.drop(['rucEnt', 'rucProv'], axis=1)
+
+
+            encoder = LabelEncoder()
+
+            values = datos2['descCPC'].astype(str)
+            datos2['descCPC_encoder'] = encoder.fit_transform(values)
+
+            values = datos2['tipoCont']
+            datos2['tipoCont_encoder'] = encoder.fit_transform(values)
+
+            values = datos2['nomEnt']
+            datos2['nomEnt_encoder'] = encoder.fit_transform(values)
+
+            values = datos2['provEnt']
+            datos2['provEnt_encoder'] = encoder.fit_transform(values)
+
+            values = datos2['cantEnt']
+            datos2['cantEnt_encoder'] = encoder.fit_transform(values)
+
+            datos2 = datos2.drop(['nomProv'], axis=1)
+
+            datos2 = datos2.drop(['codCPC'], axis=1)
+
+            #Dataset para clustering
+            datos_clustering = datos2.copy()
+
+            datos_clustering = datos_clustering.drop(['fechaAdj', 'descCPC', 'tipoCont', 'nomEnt', 'provEnt', 'cantEnt'], axis=1)
+
+            #Valores min y max para el rango
+            min_value = datos_clustering["valAdj"].min()
+            max_value = datos_clustering["valAdj"].max()
+
+            # Definir los rangos y etiquetas para clasificar 'valor_adjudicado'
+            rangos = range(0, 50000001, 100)  # Ajusta los rangos según tus necesidades
+            etiquetas = ["{0} - {1}".format(i, i + 99) for i in range(0, 50000000, 100)]
+
+            # Clasificar 'valor_adjudicado' por rangos utilizando pd.cut
+            datos_clustering["grupo_valAdj"] = pd.cut(datos_clustering['valAdj'], bins=rangos, right=False, labels=etiquetas)
+
+            values = datos_clustering['grupo_valAdj']
+            datos_clustering['grupo_valAdj_encoder'] = encoder.fit_transform(values)
+
+            #datos_grupo_valAdj_unique = datos_clustering[['grupo_valAdj', 'grupo_valAdj_encoder']].drop_duplicates().sort_values('grupo_valAdj_encoder')
+
+            datos_clustering = datos_clustering.drop(['valAdj', 'presupuesto'], axis=1)
+            #datos_clustering
+
+            datos_clustering = datos_clustering.drop(['grupo_valAdj'], axis=1)
+            #datos_clustering
+
+            #from scikit-learn.cluster import KMeans
+
+            # Aplicar Mini-Batch K-means
+            kmeans = MiniBatchKMeans(n_clusters=3, batch_size=1000, random_state=42)
+            clusters = kmeans.fit_predict(datos_clustering)
+
+
+            datos1['valAdj_grupo'] = pd.cut(datos1['valAdj'], bins=rangos, right=False, labels=etiquetas)
+
+            #df
+
+            datos_csv_clustering = pd.concat([datos1, pd.DataFrame({'cluster': clusters})], axis=1)
+
+            provincias = {
+                "AZUAY": {"latitud": -2.898611, "longitud": -78.477778},
+                "BOLIVAR": {"latitud": -1.749722, "longitud": -78.166667},
+                "CAÑAR": {"latitud": -2.833333, "longitud": -78.666667},
+                "CARCHI": {"latitud": 0.783333, "longitud": -78.166667},
+                "CHIMBORAZO": {"latitud": -1.700833, "longitud": -78.666667},
+                "COTOPAXI": {"latitud": -0.683333, "longitud": -78.416667},
+                "EL ORO": {"latitud": -3.450000, "longitud": -79.916667},
+                "ESMERALDAS": {"latitud": 0.966667, "longitud": -79.666667},
+                "GALAPAGOS": {"latitud": -0.633333, "longitud": -90.333333},
+                "GUAYAS": {"latitud": -2.200000, "longitud": -79.883333},
+                "IMBABURA": {"latitud": 0.416667, "longitud": -78.416667},
+                "LOJA": {"latitud": -4.000000, "longitud": -79.216667},
+                "LOS RIOS": {"latitud": -1.500000, "longitud": -79.166667},
+                "MANABI": {"latitud": -0.500000, "longitud": -80.000000},
+                "MORONA SANTIAGO": {"latitud": -2.833333, "longitud": -77.833333},
+                "NAPO": {"latitud": -1.000000, "longitud": -77.833333},
+                "ORELLANA": {"latitud": -0.583333, "longitud": -76.833333},
+                "PASTAZA": {"latitud": -1.416667, "longitud": -77.833333},
+                "PICHINCHA": {"latitud": -0.250000, "longitud": -78.500000},
+                "SANTA ELENA": {"latitud": -2.250000, "longitud": -80.833333},
+                "SANTO DOMINGO DE LOS TSACHILAS": {"latitud": -0.250000, "longitud": -79.333333},
+                "SUCUMBIOS": {"latitud": -0.500000, "longitud": -76.833333},
+                "TUNGURAHUA": {"latitud": -1.416667, "longitud": -78.250000},
+                "ZAMORA CHINCHIPE": {"latitud": -4.083333, "longitud": -78.916667},
+            }
+
+            datos_csv_clustering['Latitud'] = datos_csv_clustering['provEnt'].map(lambda x: provincias[x]['latitud'])
+            datos_csv_clustering['Longitud'] = datos_csv_clustering['provEnt'].map(lambda x: provincias[x]['longitud'])
+            datos_csv_clustering['diferencia'] = datos_csv_clustering['presupuesto']-datos_csv_clustering['valAdj']
+
+            datos = datos_csv_clustering.copy()
+
+            #########################################
 
             #Obtenemos los valores de la consulta
             tipo_cont = request.POST.get('tipo_cont')
