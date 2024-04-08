@@ -30,38 +30,60 @@
         margin-top: 70px;
         margin-bottom: 30px;
       }
-      .login-form {
-        margin-top: 95px;
-        width: 300px;
-        background: #EBA902;
-        padding: 20px;
-        border-radius: 8px;
-        color: white;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      .login-form{
+        margin-top: 40px; /* Espacio entre los campos de entrada */
       }
+      .login-form form {
+        /* Estilos específicos para el formulario */
+        background: #ffffff; /* Cambia el color de fondo del formulario */
+        padding: 20px; /* Añade padding alrededor del contenido del formulario */
+        border-radius: 10px; /* Bordes redondeados para el formulario */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil alrededor del formulario */
+      }
+      
       .login-form input {
-        width: calc(100% - 20px);
-        margin: 10px 0;
-        padding: 10px;
+
+        margin-bottom: 15px; /* Espacio entre los campos de entrada */
+        border: 1px solid #ccc; /* Borde de los campos de entrada */
+        border-radius: 4px; /* Bordes redondeados para los campos de entrada */
+        padding: 10px; /* Padding interno para los campos de entrada */
       }
-      .login-form input[type="submit"] {
-        background: #d63384;
-        border: 0;
-        color: white;
-        cursor: pointer;
+      
+      .login-form button {
+        width: 100%; /* Hace que el botón ocupe todo el ancho del formulario */
+        padding: 10px; /* Padding interno para el botón */
+        border-radius: 4px; /* Bordes redondeados para el botón */
+        border: none; /* Elimina el borde del botón */
+        color: white; /* Color del texto del botón */
+        background-color: #9C1944; /* Color de fondo del botón */
+        cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre el botón */
       }
-      .login-form input[type="submit"]:hover {
-        background: #c72e77;
+      
+      .login-form button:hover {
+        background-color: #915065; /* Color de fondo del botón al pasar el mouse */
       }
       h2 {
         color: #171305;
         font-size: 35px;
         font-weight: bold;
         margin-bottom:40px;
+      }
+      button {
+        background-color: #9c1944; /* Color de fondo */
+        color: white; /* Color del texto */
+        border: none; /* Elimina el borde */
+        padding: 10px 20px; /* Padding alrededor del texto */
+        margin: 4px 2px; /* Margen alrededor de los botones */
+        cursor: pointer; /* Cursor en forma de mano al pasar el mouse */
+        text-align: center; /* Alineación del texto */
+        text-decoration: none; /* Sin subrayado */
+        display: inline-block; /* Para que se comporten como enlaces */
+        font-size: 16px; /* Tamaño del texto */
+        border-radius: 15px; /* Aquí se añade el borde redondeado */
+      }
+      
+      button:hover {
+        background-color: #EBA902; /* Color de fondo al pasar el mouse */
       }
     </style>
   </head>
@@ -81,7 +103,7 @@
             {% csrf_token %} {{form}}
             <button type="submit" class="login-button">Registrarme</button>
           </form>
-          <a href="{% url "base:home"%}">Inicio</a>
+          <button onclick="window.location.href='{% url 'base:home' %}';">Inicio</button>
         </div>
       </div>
     </div>
