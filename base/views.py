@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 from sklearn.preprocessing import LabelEncoder
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import silhouette_score
-import numpy as np
+
 
 # Create your views here.
 '''def home(request):
