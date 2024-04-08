@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de agrupamiento de datos por clustering</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+      }
+      .header {
+        background-color: #9c1944;
+        padding: 20px;
+        text-align: center;
+        color: white;
+      }
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(
+          50% - 10px
+        ); /* Adjust height based on the header/footer size */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto; /* Changed from a calculated height to auto */
+        padding: 20px; /* Add padding for spacing */
+        gap: 20px; /* Space between items */
+      }
+      .translation-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 60%;
+        max-width: 800px;
+      }
+      .file-types {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+      }
+      .file-type {
+        text-align: center;
+        cursor: pointer;
+      }
+      .file-type img {
+        width: 60px;
+      }
+      .upload-area {
+        border: 2px dashed #9c1944;
+        padding: 30px;
+        text-align: center;
+        color: #9c1944;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .upload-area:hover {
+        background-color: white;
+      }
+      .submit-button {
+        background-color: #9c1944;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 18px;
+      }
+      .submit-button:hover {
+        background-color: #9c1944;
+      }
+      .charts-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around; /* This will put equal space around each chart */
+        align-items: flex-start; /* Align items at the start of the container */
+      }
+      .charts-container2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around; /* This will put equal space around each chart */
+        align-items: flex-start; /* Align items at the start of the container */
+      }
+      .chart {
+        width: calc(33.3333% - 10px); /* Adjust the width to account for any margin or padding */
+        margin: 5px; /* Optional margin for spacing between charts */
+      }
+      .chart2 {
+        width: calc(50% - 10px); /* Adjust the width to account for any margin or padding */
+        margin: 5px; /* Optional margin for spacing between charts */
+      }
+      canvas {
+        max-width: 100%; /* Ensures the canvas is responsive and fits its container */
+        height: auto; /* Adjust the height to maintain aspect ratio */
+      }
+      
+      button {
+        background-color: #9c1944; /* Color de fondo */
+        color: white; /* Color del texto */
+        border: none; /* Elimina el borde */
+        padding: 10px 20px; /* Padding alrededor del texto */
+        margin: 4px 2px; /* Margen alrededor de los botones */
+        cursor: pointer; /* Cursor en forma de mano al pasar el mouse */
+        text-align: center; /* Alineación del texto */
+        text-decoration: none; /* Sin subrayado */
+        display: inline-block; /* Para que se comporten como enlaces */
+        font-size: 16px; /* Tamaño del texto */
+        border-radius: 15px; /* Aquí se añade el borde redondeado */
+      }
+      
+      button:hover {
+        background-color: #EBA902; /* Color de fondo al pasar el mouse */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Sistema de Agrupamiento de Datos por Clustering</h1>
+      <button onclick="window.location.href='{% url 'base:logout' %}';">Salir</button>
+      <button onclick="window.location.href='{% url 'base:home' %}';">Ir a Home</button>
+    </div>
+    <div class="content">
+
+        
+        <div
+        class="tableauPlaceholder"
+        id="viz1711837396862"
+        style="position: relative"
+        >
+        <noscript
+        >
+        <a href="#"
+            ><img
+            alt=" "
+            src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv7&#47;INICIO&#47;1_rss.png"
+            style="border: none" /></a></noscript
+            ><object class="tableauViz" style="display: none">
+                <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                <param name="embed_code_version" value="3" />
+                <param name="site_root" value="" />
+                <param name="name" value="DatosClusteringUIDEv7&#47;INICIO" />
+                <param name="tabs" value="no" />
+                <param name="toolbar" value="yes" />
+                <param
+                name="static_image"
+                value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv7&#47;INICIO&#47;1.png"
+                />
+                <param name="animate_transition" value="yes" />
+                <param name="display_static_image" value="yes" />
+                <param name="display_spinner" value="yes" />
+                <param name="display_overlay" value="yes" />
+                <param name="display_count" value="yes" />
+                <param name="language" value="es-ES" />
+                <param name="filter" value="publish=yes" />
+            </object>
+        </div>
+    </div>
+      
+      <script type="text/javascript">
+          var divElement = document.getElementById("viz1711837396862");
+          var vizElement = divElement.getElementsByTagName("object")[0];
+          if (divElement.offsetWidth > 800) {
+              vizElement.style.width = "100%";
+              vizElement.style.maxWidth = "2050px";
+              vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+              vizElement.style.maxHeight = "5087px";
+            } else if (divElement.offsetWidth > 500) {
+                vizElement.style.width = "100%";
+                vizElement.style.maxWidth = "2050px";
+                vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+                vizElement.style.maxHeight = "5087px";
+            } else {
+                vizElement.style.width = "100%";
+                vizElement.style.height = "2327px";
+        }
+        var scriptElement = document.createElement("script");
+        scriptElement.src =
+          "https://public.tableau.com/javascripts/api/viz_v1.js";
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      </script>
+    </div>
+  </body>
+</html>
+{% endblock content %}

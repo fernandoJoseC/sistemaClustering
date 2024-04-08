@@ -54,6 +54,13 @@ body,
       h2{
         color: #EBA902;
         font-weight: bold;
-
+      }
+      h1{
+        color: #EBA902;
+        font-weight: bold;
+      }
+      h3{
+        color: #000000;
+        font-weight: normal;
       }
       

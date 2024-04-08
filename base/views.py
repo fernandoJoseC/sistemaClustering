@@ -329,6 +329,12 @@ def home(request):
         #return render(request, "home.html", context)
     context = {'form': DocumentForm()}
     return render(request, "home.html", context)
+
+def inicioView(request):
+    return render(request, "inicio.html", {})
+def introduccionView(request):
+    return render(request, "introduccion.html", {})
+
     
 
 def authView (request):
