@@ -334,7 +334,9 @@ def home(request):
                 'df6_json': mark_safe(df6_json), 
                 'df7_json': mark_safe(df7_json), 
                 'df8_json': mark_safe(df8_json), 
-                'df9_json': mark_safe(df9_json), 
+                'df9_json': mark_safe(df9_json),
+                'prov_ent': prov_ent,
+                'tipo_cont': tipo_cont,
                 }
             return render(request, "home.html", context)
             

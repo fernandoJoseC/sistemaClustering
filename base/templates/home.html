@@ -149,54 +149,66 @@
       </div>
 
       <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
-      <h3>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Clustering el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los 3 clusters que existen.</h3>
+      <h3>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Agrupamiento el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los 3 grupos que existen, ALTA, MEDIA Y BAJA.</h3>
+      <p>GRUPO 0: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango MEDIO</p>
+      <p>GRUPO 1: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango ALTO</p>
+      <p>GRUPO 2: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango BAJO</p>
 
       <div class="charts-container">
         <div class="chart">
-          <h2>Total del presupuesto por Grupos de procesos de compra cuya diferencia entre el presupuesto y valor adjudicado es BAJA, MEDIA Y ALTA, por PROVINCIAS</h2>
-          <h5>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</h5>
+          <h2>Presupuesto total por Grupos de procesos de compra por PROVINCIAS</h2>
+          <h4>Provincia: {{prov_ent}}</h4>
+          <p>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</p>
           <canvas id="myChart" width="900" height="800"></canvas>
         </div>
         <div class="chart">
-          <h2>Total del valor adjudicado por Grupos de procesos de compra cuya diferencia entre el presupuesto y valor adjudicado es BAJA, MEDIA Y ALTA, por PROVINCIAS</h2>
-          <h5>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</h5>
+          <h2>Valor adjudicado total por Grupos de procesos de compra por PROVINCIAS</h2>
+          <h4>Provincia: {{prov_ent}}</h4>
+          <p>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</p>
           <canvas id="myChart2" width="900" height="800"></canvas>
         </div>
         <div class="chart">
-          <h2>Promedio de la diferencia por Grupos de procesos de compra cuya diferencia es BAJA, MEDIA y ALTA, por PROVINCIAS</h2>
-          <h5>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada cluster, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</h5>
+          <h2>Promedio de la diferencia por Grupos de procesos de compra por PROVINCIAS</h2>
+          <h4>Provincia: {{prov_ent}}</h4>
+          <p>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada grupo, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</p>
           <canvas id="myChart3" width="900" height="800"></canvas>
         </div>
       </div>
       <div class="charts-container2">
         <div class="chart2">
-          <h2>Promedio de la diferencia por tipo de contratación cluster 0</h2>
-          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</h5>
+          <h2>Promedio de la diferencia por tipo de contratación Grupo 1 por PROVINCIAS</h2>
+          <h4>Provincia: {{prov_ent}}</h4>
+          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart4" width="900" height="800"></canvas>
         </div>
         <div class="chart2">
-          <h2>Promedio de la diferencia por tipo de contratación cluster 1</h2>
-          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</h5>
+          <h2>Promedio de la diferencia por tipo de contratación Grupo 2 por PROVINCIAS</h2>
+          <h4>Provincia: {{prov_ent}}</h4>
+          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart5" width="900" height="800"></canvas>
         </div>
         <div class="chart2">
-          <h2>Promedio de la diferencia por tipo de contratación cluster 2</h2>
-          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</h5>
+          <h2>Promedio de la diferencia por tipo de contratación Grupo 3 por PROVINCIAS</h2>
+          <h4>Provincia: {{prov_ent}}</h4>
+          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart6" width="900" height="800"></canvas>
         </div>
         <div class="chart2">
-          <h2>Promedio de la diferencia por provincia cluster 0</h2>
-          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</h5>
+          <h2>Promedio de la diferencia por provincia Grupo 1 por TIPO DE CONTRATACION</h2>
+          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart7" width="900" height="800"></canvas>
         </div>
         <div class="chart2">
-          <h2>Promedio de la diferencia por provincia cluster 1</h2>
-          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</h5>
+          <h2>Promedio de la diferencia por provincia Grupo 2 por TIPO DE CONTRATACION</h2>
+          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart8" width="900" height="800"></canvas>
         </div>
         <div class="chart2">
-          <h2>Promedio de la diferencia por provincia cluster 2</h2>
-          <h5>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</h5>
+          <h2>Promedio de la diferencia por provincia Grupo 3 por TIPO DE CONTRATACION</h2>
+          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart9" width="900" height="800"></canvas>
         </div>
       </div>
@@ -224,7 +236,7 @@
             type: 'bar',
             data: {
               labels: data1.map(item => item.cluster),
-
+              
               datasets: [{
                 label: 'Presupuesto por Cluster',
                 data: data1.map(item => item.presupuesto),
