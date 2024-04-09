@@ -186,9 +186,12 @@ def home(request):
             prov_ent = request.POST.get('prov_ent')
 
             # Filtrando los datos para la Provincia de Loja
-            data_filtrada_provincias = datos[datos['provEnt'] == prov_ent]
-            data_filtrada_tipo_cont = data_filtrada_provincias[data_filtrada_provincias['tipoCont'] == tipo_cont]
-            data_filtrada_nom_ent = data_filtrada_tipo_cont[data_filtrada_tipo_cont['nomEnt']== nom_ent]
+            data_filtrada_provincias = pd.DataFrame(datos[datos['provEnt'] == prov_ent])
+            data_filtrada_tipo_cont = pd.DataFrame(datos[datos['tipoCont'] == tipo_cont])
+            data_filtrada_nom_ent = pd.DataFrame(datos[datos['nomEnt']== nom_ent])
+            '''data_filtrada_provincias = pd.DataFrame(datos[datos['provEnt'] == prov_ent])
+            data_filtrada_tipo_cont = pd.DataFrame(data_filtrada_provincias[data_filtrada_provincias['tipoCont'] == tipo_cont])
+            data_filtrada_nom_ent = pd.DataFrame(data_filtrada_tipo_cont[data_filtrada_tipo_cont['nomEnt']== nom_ent])'''
             
         
             # Convertir el DataFrame a JSON
@@ -209,9 +212,14 @@ def home(request):
             total_diferencia_por_provincia = datos.groupby('provEnt')['diferencia'].sum().reset_index()
 
             #total_presupuesto_por_cluster = datos.groupby('cluster')['presupuesto'].sum().reset_index()
-            total_presupuesto_por_cluster = datos.groupby('cluster')['presupuesto'].sum().reset_index()
-            total_valAdj_por_cluster = datos.groupby('cluster')['valAdj'].sum().reset_index()
-            total_diferencia_por_cluster = datos.groupby('cluster')['diferencia'].mean().reset_index()
+            if prov_ent == "TODOS":
+                data_filtrada = datos
+            else:
+                data_filtrada = data_filtrada_provincias
+
+            total_presupuesto_por_cluster = data_filtrada.groupby('cluster')['presupuesto'].sum().reset_index()
+            total_valAdj_por_cluster = data_filtrada.groupby('cluster')['valAdj'].sum().reset_index()
+            total_diferencia_por_cluster = data_filtrada.groupby('cluster')['diferencia'].mean().reset_index()
 
             total_promedio_diferencia_tipo_cero = datos.groupby('tipoCont')['diferencia'].mean().reset_index()
 
@@ -225,12 +233,19 @@ def home(request):
             totales_diferencia_cluster = total_diferencia_por_cluster['diferencia'].tolist()
 
             # Calculate the average difference for each type of contract
-            total_promedio_diferencia_tipo_cero = datos[datos['cluster']==0].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_uno = datos[datos['cluster']==1].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_dos = datos[datos['cluster']==2].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_cero = datos[datos['cluster']==0].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_uno = datos[datos['cluster']==1].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_dos = datos[datos['cluster']==2].groupby('provEnt')['diferencia'].mean().reset_index()
+            
+            total_promedio_diferencia_tipo_cero = data_filtrada[data_filtrada['cluster']==0].groupby('tipoCont')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_tipo_uno = data_filtrada[data_filtrada['cluster']==1].groupby('tipoCont')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_tipo_dos = data_filtrada[data_filtrada['cluster']==2].groupby('tipoCont')['diferencia'].mean().reset_index()
+
+            if tipo_cont == "Todos":
+                data_filtrada_tipo = datos
+            else:
+                data_filtrada_tipo = data_filtrada_tipo_cont
+
+            total_promedio_diferencia_provincia_cero = data_filtrada_tipo[data_filtrada_tipo['cluster']==0].groupby('provEnt')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_provincia_uno = data_filtrada_tipo[data_filtrada_tipo['cluster']==1].groupby('provEnt')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_provincia_dos = data_filtrada_tipo[data_filtrada_tipo['cluster']==2].groupby('provEnt')['diferencia'].mean().reset_index()
            
 
             #Filtro por el tipo de contratacion el promedio de la diferencia

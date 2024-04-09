@@ -133,7 +133,7 @@
   </head>
   <body>
     <div class="header">
-      <h1>Sistema de Agrupamiento de Datos por Clustering</h1>
+      <h1>Sistema de Agrupamiento de Datos por Agrupamiento</h1>
       
       <button onclick="window.location.href='{% url 'base:logout' %}';">Salir</button>
       <button onclick="window.location.href='{% url 'base:inicioView' %}';">Ir a Inicio</button>
@@ -148,23 +148,23 @@
         </form>
       </div>
 
-      <h1>Gráficas basadas en el agrupamiento por Clusters</h1>
+      <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
       <h3>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Clustering el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los 3 clusters que existen.</h3>
 
       <div class="charts-container">
         <div class="chart">
-          <h2>Total del presupuesto por cluster</h2>
-          <h5>Este gráfico representa el total del presupuesto por cada tipo de cluster</h5>
+          <h2>Total del presupuesto por Grupos de procesos de compra cuya diferencia entre el presupuesto y valor adjudicado es BAJA, MEDIA Y ALTA, por PROVINCIAS</h2>
+          <h5>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</h5>
           <canvas id="myChart" width="900" height="800"></canvas>
         </div>
         <div class="chart">
-          <h2>Total del valor adjudicado por cluster</h2>
+          <h2>Total del valor adjudicado por Grupos de procesos de compra cuya diferencia entre el presupuesto y valor adjudicado es BAJA, MEDIA Y ALTA, por PROVINCIAS</h2>
           <h5>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</h5>
           <canvas id="myChart2" width="900" height="800"></canvas>
         </div>
         <div class="chart">
-          <h2>Total del promedio de la diferencia por cluster</h2>
-          <h5>Este gráfico representa el total del promedio de la diferencia por cada tipo de cluster, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada cluster, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</h5>
+          <h2>Promedio de la diferencia por Grupos de procesos de compra cuya diferencia es BAJA, MEDIA y ALTA, por PROVINCIAS</h2>
+          <h5>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada cluster, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</h5>
           <canvas id="myChart3" width="900" height="800"></canvas>
         </div>
       </div>
