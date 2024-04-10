@@ -239,6 +239,8 @@ def home(request):
             total_promedio_diferencia_tipo_cero = data_filtrada[data_filtrada['cluster']==0].groupby('tipoCont')['diferencia'].mean().reset_index()
             total_promedio_diferencia_tipo_uno = data_filtrada[data_filtrada['cluster']==1].groupby('tipoCont')['diferencia'].mean().reset_index()
             total_promedio_diferencia_tipo_dos = data_filtrada[data_filtrada['cluster']==2].groupby('tipoCont')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_tipo_tres = data_filtrada[data_filtrada['cluster']==3].groupby('tipoCont')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_tipo_cuatro = data_filtrada[data_filtrada['cluster']==4].groupby('tipoCont')['diferencia'].mean().reset_index()
 
             if tipo_cont == "Todos":
                 data_filtrada_tipo = datos
@@ -248,6 +250,8 @@ def home(request):
             total_promedio_diferencia_provincia_cero = data_filtrada_tipo[data_filtrada_tipo['cluster']==0].groupby('provEnt')['diferencia'].mean().reset_index()
             total_promedio_diferencia_provincia_uno = data_filtrada_tipo[data_filtrada_tipo['cluster']==1].groupby('provEnt')['diferencia'].mean().reset_index()
             total_promedio_diferencia_provincia_dos = data_filtrada_tipo[data_filtrada_tipo['cluster']==2].groupby('provEnt')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_provincia_tres = data_filtrada_tipo[data_filtrada_tipo['cluster']==3].groupby('provEnt')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_provincia_cuatro = data_filtrada_tipo[data_filtrada_tipo['cluster']==4].groupby('provEnt')['diferencia'].mean().reset_index()
            
 
             #Filtro por el tipo de contratacion el promedio de la diferencia
@@ -261,6 +265,12 @@ def home(request):
             tipos_contrato_dos = total_promedio_diferencia_tipo_dos['tipoCont'].tolist()
             totales_promedio_diferencia_tipo_dos = total_promedio_diferencia_tipo_dos['diferencia'].tolist()
 
+            tipos_contrato_tres = total_promedio_diferencia_tipo_tres['tipoCont'].tolist()
+            totales_promedio_diferencia_tipo_tres = total_promedio_diferencia_tipo_tres['diferencia'].tolist()
+
+            tipos_contrato_cuatro = total_promedio_diferencia_tipo_cuatro['tipoCont'].tolist()
+            totales_promedio_diferencia_tipo_cuatro = total_promedio_diferencia_tipo_cuatro['diferencia'].tolist()
+
             provincias_cero = total_promedio_diferencia_provincia_cero['provEnt'].tolist()
             totales_promedio_diferencia_provincia_cero = total_promedio_diferencia_provincia_cero['diferencia'].tolist()
 
@@ -269,6 +279,12 @@ def home(request):
 
             provincias_dos = total_promedio_diferencia_provincia_dos['provEnt'].tolist()
             totales_promedio_diferencia_provincia_dos = total_promedio_diferencia_provincia_dos['diferencia'].tolist()
+
+            provincias_tres = total_promedio_diferencia_provincia_tres['provEnt'].tolist()
+            totales_promedio_diferencia_provincia_tres = total_promedio_diferencia_provincia_tres['diferencia'].tolist()
+
+            provincias_cuatro = total_promedio_diferencia_provincia_cuatro['provEnt'].tolist()
+            totales_promedio_diferencia_provincia_cuatro = total_promedio_diferencia_provincia_cuatro['diferencia'].tolist()
 
 
             # Agrupando por 'tipoCont' para obtener nombres únicos y sumar los presupuestos
@@ -317,6 +333,22 @@ def home(request):
                 'provincias_dos': provincias_dos,
                 'promedio_diferencia_provincia_dos': totales_promedio_diferencia_provincia_dos
                 })
+            df10 = pd.DataFrame({
+                'tipo_contrato_tres': tipos_contrato_tres,
+                'promedio_diferencia_tres': totales_promedio_diferencia_tipo_tres
+                })
+            df11 = pd.DataFrame({
+                'tipo_contrato_cuatro': tipos_contrato_cuatro,
+                'promedio_diferencia_cuatro': totales_promedio_diferencia_tipo_cuatro
+                })
+            df12 = pd.DataFrame({
+                'provincias_tres': provincias_tres,
+                'promedio_diferencia_provincia_tres': totales_promedio_diferencia_provincia_tres
+                })
+            df13 = pd.DataFrame({
+                'provincias_cuatro': provincias_cuatro,
+                'promedio_diferencia_provincia_cuatro': totales_promedio_diferencia_provincia_cuatro
+                })
             df_json = df.to_json(orient='records')
             df2_json = df2.to_json(orient='records')
             df3_json = df3.to_json(orient='records')
@@ -326,6 +358,10 @@ def home(request):
             df7_json = df7.to_json(orient='records')
             df8_json = df8.to_json(orient='records')
             df9_json = df9.to_json(orient='records')
+            df10_json = df10.to_json(orient='records')
+            df11_json = df11.to_json(orient='records')
+            df12_json = df12.to_json(orient='records')
+            df13_json = df13.to_json(orient='records')
             context = {
                 'form': form, 
                 'df_json': mark_safe(df_json), 
@@ -337,6 +373,10 @@ def home(request):
                 'df7_json': mark_safe(df7_json), 
                 'df8_json': mark_safe(df8_json), 
                 'df9_json': mark_safe(df9_json),
+                'df10_json': mark_safe(df10_json),
+                'df11_json': mark_safe(df11_json),
+                'df12_json': mark_safe(df12_json),
+                'df13_json': mark_safe(df13_json),
                 'prov_ent': prov_ent,
                 'tipo_cont': tipo_cont,
                 'num_clusters': num_clusters,
