@@ -31,9 +31,15 @@ def home(request):
     if request.method == "POST":
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
+            #Obtenemos los valores de la consulta
+            tipo_cont = request.POST.get('tipo_cont')
+            nom_ent = request.POST.get('nom_ent')
+            prov_ent = request.POST.get('prov_ent')
+            num_clusters = int(request.POST.get('num_clusters'))
+            
+
             # Agrega un mensaje de éxito
             messages.success(request, 'Archivo cargado y procesado con éxito.')
-
             # Guarda el archivo subido en un lugar del sistema de archivos
             uploaded_file = request.FILES['document']  # Asegúrate de que 'document' es el nombre correcto en tu formulario
             fs = FileSystemStorage()
@@ -135,7 +141,7 @@ def home(request):
             #from scikit-learn.cluster import KMeans
 
             # Aplicar Mini-Batch K-means
-            kmeans = MiniBatchKMeans(n_clusters=3, batch_size=1000, random_state=42)
+            kmeans = MiniBatchKMeans(n_clusters=num_clusters, batch_size=1000, random_state=42)
             clusters = kmeans.fit_predict(datos_clustering)
 
 
@@ -180,10 +186,6 @@ def home(request):
 
             #########################################
 
-            #Obtenemos los valores de la consulta
-            tipo_cont = request.POST.get('tipo_cont')
-            nom_ent = request.POST.get('nom_ent')
-            prov_ent = request.POST.get('prov_ent')
 
             # Filtrando los datos para la Provincia de Loja
             data_filtrada_provincias = pd.DataFrame(datos[datos['provEnt'] == prov_ent])
@@ -337,6 +339,7 @@ def home(request):
                 'df9_json': mark_safe(df9_json),
                 'prov_ent': prov_ent,
                 'tipo_cont': tipo_cont,
+                'num_clusters': num_clusters,
                 }
             return render(request, "home.html", context)
             

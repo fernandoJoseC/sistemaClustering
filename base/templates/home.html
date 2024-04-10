@@ -129,6 +129,30 @@
         margin-top: 20px; /* Añade un margen arriba para separarlo del contenido */
         font-size: 16px; /* Tamaño del texto */
       }
+      <style>
+        /* Estilos para los labels de los checkboxes */
+        .chart-label {
+          display: inline-block; /* Alinea los checkboxes horizontal o verticalmente */
+          background-color: #f5f5f5; /* Color de fondo ligero para contraste */
+          color: #9c1944; /* Color del texto para coincidir con el esquema de color principal */
+          margin: 10px; /* Espacio alrededor de los labels para evitar aglomeración */
+          padding: 5px 10px; /* Padding para dar más espacio dentro del label */
+          border-radius: 5px; /* Bordes redondeados para suavizar la apariencia */
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+          cursor: pointer; /* Indica al usuario que el label es interactivo */
+        }
+      
+        /* Estilo para los checkboxes para que coincidan con el estilo de los labels */
+        .chart-label input[type="checkbox"] {
+          margin-right: 5px; /* Espacio entre el checkbox y el texto */
+        }
+      
+        /* Cambios al hacer hover sobre los labels para mejorar la interactividad */
+        .chart-label:hover {
+          background-color: #eaeaea; /* Ligeramente más oscuro al pasar el mouse */
+        }
+      </style>
+      
     </style>
   </head>
   <body>
@@ -146,28 +170,67 @@
           {% csrf_token %} {{form}}
           <button type="submit" class="login-button">Iniciar</button>
         </form>
-      </div>
+        <!--
 
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart" checked>
+            Mostrar/Ocultar Gráfico Presupuesto por Provincias
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart2" checked>
+            Mostrar/Ocultar Gráfico Valor Adjudicado por Provincias
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart3" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores por Provincias
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart4" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 1 por Provincias
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart5" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 2 por Provincias
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart6" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 3 por Provincias
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart7" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 1 por Tipo de Contratación
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart8" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 2 por Tipo de Contratación
+          </label>
+          <label class="chart-label">
+            <input type="checkbox" class="graph-toggle" data-target="myChart9" checked>
+            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 3 por Tipo de Contratación
+          </label>
+        -->
+        </div>
+        
       <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
       <h3>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Agrupamiento el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los 3 grupos que existen, ALTA, MEDIA Y BAJA.</h3>
-      <p>GRUPO 0: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango MEDIO</p>
-      <p>GRUPO 1: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango ALTO</p>
-      <p>GRUPO 2: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango BAJO</p>
+      <p>GRUPO 0: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango MEDIO promedio de $ 1300</p>
+      <p>GRUPO 1: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango ALTO promedio de $ 4500</p>
+      <p>GRUPO 2: Procesos de compra cuya diferencia entre el presupuesto y el valor adjudicado está en un rango BAJO promedio de $ 700</p>
 
       <div class="charts-container">
-        <div class="chart">
+        <div class="chart" id="chart1Container">
           <h2>Presupuesto total por Grupos de procesos de compra por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
           <p>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</p>
           <canvas id="myChart" width="900" height="800"></canvas>
         </div>
-        <div class="chart">
+        <div class="chart" id="chart2Container">
           <h2>Valor adjudicado total por Grupos de procesos de compra por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
           <p>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</p>
           <canvas id="myChart2" width="900" height="800"></canvas>
         </div>
-        <div class="chart">
+        <div class="chart" id="chart3Container">
           <h2>Promedio de la diferencia por Grupos de procesos de compra por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
           <p>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada grupo, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</p>
@@ -175,37 +238,37 @@
         </div>
       </div>
       <div class="charts-container2">
-        <div class="chart2">
+        <div class="chart2" id="chart4Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 1 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
           <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart4" width="900" height="800"></canvas>
         </div>
-        <div class="chart2">
+        <div class="chart2" id="chart5Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 2 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
           <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart5" width="900" height="800"></canvas>
         </div>
-        <div class="chart2">
+        <div class="chart2" id="chart6Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 3 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
           <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart6" width="900" height="800"></canvas>
         </div>
-        <div class="chart2">
+        <div class="chart2" id="chart7Container">
           <h2>Promedio de la diferencia por provincia Grupo 1 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
           <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart7" width="900" height="800"></canvas>
         </div>
-        <div class="chart2">
+        <div class="chart2" id="chart8Container">
           <h2>Promedio de la diferencia por provincia Grupo 2 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
           <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart8" width="900" height="800"></canvas>
         </div>
-        <div class="chart2">
+        <div class="chart2" id="chart9Container">
           <h2>Promedio de la diferencia por provincia Grupo 3 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
           <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
@@ -216,6 +279,21 @@
 
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Selecciona todos los checkboxes de control de gráficos
+          document.querySelectorAll('.graph-toggle').forEach(function(toggle) {
+            toggle.addEventListener('change', function() {
+              // Encuentra el contenedor del gráfico basado en el data-target del checkbox
+              const chartContainer = document.getElementById(this.getAttribute('data-target') + "Container"); // Asegúrate de que cada ID del contenedor del gráfico termine en "Container"
+        
+              // Muestra u oculta el contenedor del gráfico
+              chartContainer.style.display = this.checked ? 'block' : 'none';
+            });
+          });
+        });
+        </script>
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           //Cargamos las variables con los datos del back

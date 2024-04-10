@@ -10100,6 +10100,12 @@ NOM_ENT_CHOICES = [
     ('DIRECCION DISTRITAL DE TRANSPORTE Y OBRAS PÚBLICAS DE NAPO','DIRECCION DISTRITAL DE TRANSPORTE Y OBRAS PÚBLICAS DE NAPO'),
     ('HOSPITAL GENERAL DE MACAS','HOSPITAL GENERAL DE MACAS'),
 ]
+NUM_CLUSTERS = [
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
+    ]
 
 # Create your models here.
 class Document(models.Model):
@@ -10107,3 +10113,4 @@ class Document(models.Model):
     tipo_cont = models.CharField(max_length=255,choices=TIPO_CONT_CHOICES, default="Todos")
     prov_ent = models.CharField(max_length=255, choices=PROV_ENT_CHOICES, default="TODOS")
     nom_ent = models.CharField(max_length=255, choices=NOM_ENT_CHOICES, default="TODOS")
+    num_clusters = models.IntegerField(default=3)
