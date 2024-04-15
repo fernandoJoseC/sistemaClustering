@@ -11,5 +11,5 @@ class DocumentForm(forms.ModelForm):
 			'document':'',
             'prov_ent':'Nombre de la provincia',
             'tipo_cont':'Tipo de contratación',
-            'num_clusters':'Escoja el número de clusters',
+            'num_clusters':'Escoja el número de clusters entre 2 hasta 5',
 		}
