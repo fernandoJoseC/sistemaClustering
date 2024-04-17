@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 
 TIPO_CONT_CHOICES = [
     ('Todos', 'Todos'),
@@ -10107,10 +10108,15 @@ NUM_CLUSTERS = [
     (5, '5'),
     ]
 
+csv_validator = FileExtensionValidator(allowed_extensions=['csv'], message="Solo se permiten archivos CSV.")
+
 # Create your models here.
 class Document(models.Model):
-    document = models.FileField(upload_to='docs/' )
+    document = models.FileField(upload_to='docs/', validators=[csv_validator], )
     tipo_cont = models.CharField(max_length=255,choices=TIPO_CONT_CHOICES, default="Todos")
     prov_ent = models.CharField(max_length=255, choices=PROV_ENT_CHOICES, default="TODOS")
     nom_ent = models.CharField(max_length=255, choices=NOM_ENT_CHOICES, default="TODOS")
+    num_clusters = models.IntegerField(default=3, choices=NUM_CLUSTERS)
+class DocumentPrediccion(models.Model):
+    document = models.FileField(upload_to='docs/', validators=[csv_validator], )
     num_clusters = models.IntegerField(default=3, choices=NUM_CLUSTERS)
