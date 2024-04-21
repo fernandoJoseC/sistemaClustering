@@ -1,1 +1,1 @@
-web: gunicorn administracion.wsgi --log-file - --timeout 300
+web: gunicorn administracion.wsgi --log-file - --timeout 300 --workers 3 --threads 2
