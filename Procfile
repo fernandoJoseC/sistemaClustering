@@ -1,1 +1,1 @@
-web: gunicorn administracion.wsgi --log-file -
+web: gunicorn administracion.wsgi --log-file - --timeout 300
