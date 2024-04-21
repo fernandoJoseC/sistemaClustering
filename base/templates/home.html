@@ -288,6 +288,7 @@
         z-index: 10; /* Asegúrate de que está por encima de otros elementos */
         width: 80%; /* Ajusta al ancho deseado */
         max-width: 600px;
+        color: white;
       }
       .chart-description button.close-button {
         position: absolute;
@@ -333,6 +334,11 @@
       .chart2 h2 {
         text-align: center;
       }
+      .chart2 h4 {
+        text-align: center;
+        color: black;
+        font-size: 20px;
+      }
       
     </style>
     
@@ -358,7 +364,6 @@
         <h2>Sube un documento CSV</h2>
         <form method="POST" enctype="multipart/form-data" class="mi-formulario">
           {% csrf_token %}
-          
           {{form | crispy}}
           <button type="submit" class="login-button">Iniciar</button>
         </form>
@@ -366,8 +371,8 @@
 
       <div class="charts-container">
         <div class="chart2" id="chart1Container">
-          <h2>Presupuesto total por Grupos de procesos de compra por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Presupuesto Total por Grupos</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc1')">Descripción</button>
           <div id="desc1" class="chart-description" style="display: none;">
@@ -377,8 +382,8 @@
           </div>
         </div>
         <div class="chart2" id="chart2Container">
-          <h2>Valor adjudicado total por Grupos de procesos de compra por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Valor Adjudicado Total por Grupos</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart2" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc2')">Descripción</button>
           <div id="desc2" class="chart-description" style="display: none;">
@@ -388,8 +393,8 @@
           </div>
         </div>
         <div class="chart2" id="chart3Container">
-          <h2>Promedio de la diferencia por Grupos de procesos de compra por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Diferencia por Grupos</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart3" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc3')">Descripción</button>
           <div id="desc3" class="chart-description" style="display: none;">
@@ -402,8 +407,8 @@
       </div>
       <div class="charts-container2">
         <div class="chart2" id="chart4Container">
-          <h2>Promedio de la diferencia por tipo de contratación Grupo 1 por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Diferencia por Tipo de Contratación Grupo 1</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart4" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc4')">Descripción</button>
           <div id="desc4" class="chart-description" style="display: none;">
@@ -413,8 +418,8 @@
           </div>
         </div>
         <div class="chart2" id="chart5Container">
-          <h2>Promedio de la diferencia por tipo de contratación Grupo 2 por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Diferencia por Tipo de Contratación Grupo 2</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart5" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc5')">Descripción</button>
           <div id="desc5" class="chart-description" style="display: none;">
@@ -424,8 +429,8 @@
           </div>
         </div>
         <div class="chart2" id="chart6Container">
-          <h2>Promedio de la diferencia por tipo de contratación Grupo 3 por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Diferencia por Tipo de Contratación Grupo 3</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart6" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc6')">Descripción</button>
           <div id="desc6" class="chart-description" style="display: none;">
@@ -435,8 +440,8 @@
           </div>
         </div>
         <div class="chart2" id="chart10Container">
-          <h2>Promedio de la diferencia por tipo de contratación Grupo 4 por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Diferencia por Tipo de Contratación Grupo 4</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart10" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc10')">Descripción</button>
           <div id="desc10" class="chart-description" style="display: none;">
@@ -446,8 +451,8 @@
           </div>
         </div>
         <div class="chart2" id="chart11Container">
-          <h2>Promedio de la diferencia por tipo de contratación Grupo 5 por PROVINCIAS</h2>
-          <h4>Provincia: {{prov_ent}}</h4>
+          <h2>Diferencia por Tipo de Contratación Grupo 5</h2>
+          <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart11" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc11')">Descripción</button>
           <div id="desc11" class="chart-description" style="display: none;">
@@ -457,8 +462,8 @@
           </div>
         </div>
         <div class="chart2" id="chart7Container">
-          <h2>Promedio de la diferencia por provincia Grupo 1 por TIPO DE CONTRATACION</h2>
-          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <h2>Diferencias en el Grupo 1</h2>
+          <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart7" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc7')">Descripción</button>
           <div id="desc7" class="chart-description" style="display: none;">
@@ -468,8 +473,8 @@
           </div>
         </div>
         <div class="chart2" id="chart8Container">
-          <h2>Promedio de la diferencia por provincia Grupo 2 por TIPO DE CONTRATACION</h2>
-          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <h2>Diferencias en el Grupo 2</h2>
+          <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart8" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc8')">Descripción</button>
           <div id="desc8" class="chart-description" style="display: none;">
@@ -479,8 +484,8 @@
           </div>
         </div>
         <div class="chart2" id="chart9Container">
-          <h2>Promedio de la diferencia por provincia Grupo 3 por TIPO DE CONTRATACION</h2>
-          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <h2>Diferencias en el Grupo 3</h2>
+          <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart9" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc9')">Descripción</button>
           <div id="desc9" class="chart-description" style="display: none;">
@@ -490,8 +495,8 @@
           </div>
         </div>
         <div class="chart2" id="chart12Container">
-          <h2>Promedio de la diferencia por provincia Grupo 4 por TIPO DE CONTRATACION</h2>
-          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <h2>Diferencias en el Grupo 4</h2>
+          <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart12" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc12')">Descripción</button>
           <div id="desc12" class="chart-description" style="display: none;">
@@ -501,8 +506,8 @@
           </div>
         </div>
         <div class="chart2" id="chart13Container">
-          <h2>Promedio de la diferencia por provincia Grupo 5 por TIPO DE CONTRATACION</h2>
-          <h4>Tipo de contratación: {{tipo_cont}}</h4>
+          <h2>Diferencias en el Grupo 5</h2>
+          <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart13" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc13')">Descripción</button>
           <div id="desc13" class="chart-description" style="display: none;">
