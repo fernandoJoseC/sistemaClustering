@@ -63,9 +63,7 @@ def home(request):
             datos0 = (pd.read_csv(file_path).rename(columns={
                             "Código Proceso":"codProceso",
                             "Descripción compra":"desCompra",
-                            #"Fecha_Publicación Jerarquía - Fecha Publicación":"fechaPub",
                             "Fecha Publicación":"fechaPub",
-                            #"Fecha Adjudicación Jerarquía - Fecha Adjudicación":"fechaAdj",
                             "Fecha Adjudicación":"fechaAdj",
                             "CPC N9":"codCPC",
                             "Descripción CPC N9":"descCPC",
@@ -73,7 +71,6 @@ def home(request):
                             "Ruc Entidad":"rucEnt",
                             "Nombre Entidad":"nomEnt",
                             "Provincia Entidad":"provEnt",
-                            #"Canton Entidad":"cantEnt",
                             "Cantón Entidad":"cantEnt",
                             "Ruc Proveedor":"rucProv",
                             "Nombre Proveedor":"nomProv",
@@ -127,10 +124,6 @@ def home(request):
 
             datos_clustering = datos_clustering.drop(['fechaAdj', 'descCPC', 'tipoCont', 'nomEnt', 'provEnt', 'cantEnt'], axis=1)
 
-            #Valores min y max para el rango
-            min_value = datos_clustering['valAdj'].min()
-            max_value = datos_clustering['valAdj'].max()
-
             # Definir los rangos y etiquetas para clasificar 'valor_adjudicado'
             rangos = range(0, 50000001, 100)  # Ajusta los rangos según tus necesidades
             etiquetas = ["{0} - {1}".format(i, i + 99) for i in range(0, 50000000, 100)]
@@ -158,8 +151,6 @@ def home(request):
 
 
             datos1['valAdj_grupo'] = pd.cut(datos1['valAdj'], bins=rangos, right=False, labels=etiquetas)
-
-            #df
 
             datos_csv_clustering = pd.concat([datos1, pd.DataFrame({'cluster': clusters})], axis=1)
 
@@ -202,28 +193,10 @@ def home(request):
             # Filtrando los datos para la Provincia de Loja
             data_filtrada_provincias = pd.DataFrame(datos[datos['provEnt'] == prov_ent])
             data_filtrada_tipo_cont = pd.DataFrame(datos[datos['tipoCont'] == tipo_cont])
-            data_filtrada_nom_ent = pd.DataFrame(datos[datos['nomEnt']== nom_ent])
-            '''data_filtrada_provincias = pd.DataFrame(datos[datos['provEnt'] == prov_ent])
-            data_filtrada_tipo_cont = pd.DataFrame(data_filtrada_provincias[data_filtrada_provincias['tipoCont'] == tipo_cont])
-            data_filtrada_nom_ent = pd.DataFrame(data_filtrada_tipo_cont[data_filtrada_tipo_cont['nomEnt']== nom_ent])'''
+            #data_filtrada_nom_ent = pd.DataFrame(datos[datos['nomEnt']== nom_ent])
             
         
             # Convertir el DataFrame a JSON
-            # Crear una lista con los nombres únicos de la columna 'tipoCont', 'nom_ent', 'prov_ent', 'cluster'
-            tipos_contrato_unicos = datos['tipoCont'].unique().tolist()
-            nombres_entidad_unicos = datos['nomEnt'].unique().tolist()
-            provincias_unicas = datos['provEnt'].unique().tolist()
-            clusters_unicos = datos['cluster'].unique().tolist()
-
-
-            # Calcular el total del presupuesto y valor adjudicado por cada tipo 
-            total_presupuesto_por_tipo = datos.groupby('tipoCont')['presupuesto'].sum().reset_index()
-            total_valAdj_por_tipo = datos.groupby('tipoCont')['valAdj'].sum().reset_index()
-            total_diferencia_por_tipo = datos.groupby('tipoCont')['diferencia'].sum().reset_index()
-
-            total_presupuesto_por_provincia = datos.groupby('provEnt')['presupuesto'].sum().reset_index()
-            total_valAdj_por_provincia = datos.groupby('provEnt')['valAdj'].sum().reset_index()
-            total_diferencia_por_provincia = datos.groupby('provEnt')['diferencia'].sum().reset_index()
 
             #total_presupuesto_por_cluster = datos.groupby('cluster')['presupuesto'].sum().reset_index()
             if prov_ent == "TODOS":
@@ -236,9 +209,6 @@ def home(request):
             total_diferencia_por_cluster = data_filtrada.groupby('cluster')['diferencia'].mean().reset_index()
 
             total_promedio_diferencia_tipo_cero = datos.groupby('tipoCont')['diferencia'].mean().reset_index()
-
-            
-
 
             # Convertir los resultados en listas para facilitar su uso posterior
             clusters = total_presupuesto_por_cluster['cluster'].tolist()
@@ -297,17 +267,6 @@ def home(request):
 
             provincias_cuatro = total_promedio_diferencia_provincia_cuatro['provEnt'].tolist()
             totales_promedio_diferencia_provincia_cuatro = total_promedio_diferencia_provincia_cuatro['diferencia'].tolist()
-
-
-            # Agrupando por 'tipoCont' para obtener nombres únicos y sumar los presupuestos
-            #grouped_data = data_filtrada.groupby('tipoCont')['presupuesto'].sum().reset_index()
-            #grouped_data = data_filtrada_nom_ent.groupby('nomEnt')['presupuesto'].sum().reset_index()
-
-            # Creando listas para los nombres únicos de 'tipoCont' y para el total del presupuesto por tipo
-            tipo_cont_list = data_filtrada_nom_ent['tipoCont'].tolist()
-            clusters_list = data_filtrada_nom_ent['cluster'].tolist()
-            presupuesto_total_list = data_filtrada_nom_ent['presupuesto'].tolist()
-
 
             df = pd.DataFrame({
                 'cluster': clusters,
@@ -401,9 +360,6 @@ def home(request):
             context = {'form': form}
             return render(request, "home.html", context)
     
-        #form = DocumentForm()
-        #context = {'form': form}
-        #return render(request, "home.html", context)
     context = {'form': DocumentForm()}
     return render(request, "home.html", context)
 
