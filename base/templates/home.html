@@ -133,11 +133,11 @@
       }
       .chart {
         width: calc(33.3333% - 10px); /* Adjust the width to account for any margin or padding */
-        margin: 5px; /* Optional margin for spacing between charts */
+        margin: 28; /* Optional margin for spacing between charts */
       }
       .chart2 {
         width: calc(50% - 10px); /* Adjust the width to account for any margin or padding */
-        margin: 5px; /* Optional margin for spacing between charts */
+        margin: 28px; /* Optional margin for spacing between charts */
       }
       canvas {
         max-width: 100%; /* Ensures the canvas is responsive and fits its container */
@@ -193,7 +193,7 @@
       }
       .mi-formulario {
         width: 100%;
-        max-width: 600px;
+        max-width: 650px;
         margin: 20px auto;
         padding: 20px;
         background: #ffffff;  /* Fondo claro para los formularios */
@@ -274,7 +274,66 @@
           text-align: center; /* Centrado de texto */
           color: #333; /* Color de texto oscuro para contraste */
           font-size: 1.25rem; /* Tamaño de fuente para el encabezado */
-      }    
+      }
+      .chart-description {
+        position: fixed; /* Posición fija en la pantalla */
+        top: 50%; /* Empieza en la mitad de la pantalla */
+        left: 50%; /* Empieza en la mitad de la pantalla */
+        transform: translate(-50%, -50%); /* Centra el div exactamente en el centro de la pantalla */
+        background-color: #C2C2C2;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 20px;
+        border-radius: 5px;
+        display: none;
+        z-index: 10; /* Asegúrate de que está por encima de otros elementos */
+        width: 80%; /* Ajusta al ancho deseado */
+        max-width: 600px;
+      }
+      .chart-description button.close-button {
+        position: absolute;
+        top: 10px; /* Espaciado desde la parte superior del card */
+        right: 10px; /* Espaciado desde la parte derecha del card */
+        background-color: transparent;
+        border: none;
+        font-size: 1.5rem; /* Tamaño del icono de cierre */
+        cursor: pointer;
+      }
+      
+      /* Esto posiciona la descripción cerca del botón que se hizo clic */
+      .chart button.active + .chart-description {
+        display: block;
+        top: 50%; /* Ajustar según sea necesario */
+        left: 50%;
+        transform: translateX(50%);
+      }
+      
+      /* Opcional: Animación para fade-in */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      .chart-description {
+        animation: fadeIn 0.5s;
+      }
+      .translation-box h2{
+        color: white;
+        text-align: center;
+      }
+      .titulos {
+        width: 1200px;
+      }
+      .titulos h1 {
+        text-align:center;
+      }
+      .titulos p {
+        font-size:20px;
+        text-align:center;
+      }
+      .chart2 h2 {
+        text-align: center;
+      }
+      
     </style>
     
   </head>
@@ -288,106 +347,169 @@
       <button onclick="window.location.href='{% url 'base:prediccionView' %}';">Ir a Prediccion</button>
     </div>
     
-    <div class="content">
-      
+
     
+    <div class="content">
+      <div class="titulos">
+        <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
+        <p>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Agrupamiento el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los grupos que existen</p>
+      </div>
       <div class="translation-box">
+        <h2>Sube un documento CSV</h2>
         <form method="POST" enctype="multipart/form-data" class="mi-formulario">
           {% csrf_token %}
-          <!--{% for field in form %}
-              <div class="form-group">
-                  {{ field.label_tag }}
-                  {{ field }}
-              </div>
-          {% endfor %}-->
+          
           {{form | crispy}}
           <button type="submit" class="login-button">Iniciar</button>
         </form>
       </div>
-        
-      <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
-      <h3>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Agrupamiento el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los grupos que existen</h3>
 
       <div class="charts-container">
-        <div class="chart" id="chart1Container">
+        <div class="chart2" id="chart1Container">
           <h2>Presupuesto total por Grupos de procesos de compra por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</p>
           <canvas id="myChart" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc1')">Descripción</button>
+          <div id="desc1" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</p>
+            <button onclick="closeDescription('desc1')">Cerrar</button>
+          </div>
         </div>
-        <div class="chart" id="chart2Container">
+        <div class="chart2" id="chart2Container">
           <h2>Valor adjudicado total por Grupos de procesos de compra por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</p>
           <canvas id="myChart2" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc2')">Descripción</button>
+          <div id="desc2" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</p>
+            <button onclick="closeDescription('desc2')">Cerrar</button>
+          </div>
         </div>
-        <div class="chart" id="chart3Container">
+        <div class="chart2" id="chart3Container">
           <h2>Promedio de la diferencia por Grupos de procesos de compra por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada grupo, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</p>
           <canvas id="myChart3" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc3')">Descripción</button>
+          <div id="desc3" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada grupo, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</p>
+
+            <button onclick="closeDescription('desc3')">Cerrar</button>
+          </div>
         </div>
       </div>
       <div class="charts-container2">
         <div class="chart2" id="chart4Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 1 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart4" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc4')">Descripción</button>
+          <div id="desc4" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
+            <button onclick="closeDescription('desc4')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart5Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 2 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart5" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc5')">Descripción</button>
+          <div id="desc5" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
+            <button onclick="closeDescription('desc5')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart6Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 3 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart6" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc6')">Descripción</button>
+          <div id="desc6" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
+            <button onclick="closeDescription('desc6')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart10Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 4 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart10" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc10')">Descripción</button>
+          <div id="desc10" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
+            <button onclick="closeDescription('desc10')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart11Container">
           <h2>Promedio de la diferencia por tipo de contratación Grupo 5 por PROVINCIAS</h2>
           <h4>Provincia: {{prov_ent}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
           <canvas id="myChart11" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc11')">Descripción</button>
+          <div id="desc11" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
+            <button onclick="closeDescription('desc11')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart7Container">
           <h2>Promedio de la diferencia por provincia Grupo 1 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart7" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc7')">Descripción</button>
+          <div id="desc7" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
+            <button onclick="closeDescription('desc7')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart8Container">
           <h2>Promedio de la diferencia por provincia Grupo 2 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart8" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc8')">Descripción</button>
+          <div id="desc8" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
+            <button onclick="closeDescription('desc8')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart9Container">
           <h2>Promedio de la diferencia por provincia Grupo 3 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart9" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc9')">Descripción</button>
+          <div id="desc9" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
+            <button onclick="closeDescription('desc9')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart12Container">
           <h2>Promedio de la diferencia por provincia Grupo 4 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart12" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc12')">Descripción</button>
+          <div id="desc12" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
+            <button onclick="closeDescription('desc12')">Cerrar</button>
+          </div>
         </div>
         <div class="chart2" id="chart13Container">
           <h2>Promedio de la diferencia por provincia Grupo 5 por TIPO DE CONTRATACION</h2>
           <h4>Tipo de contratación: {{tipo_cont}}</h4>
-          <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
           <canvas id="myChart13" width="900" height="800"></canvas>
+          <button onclick="toggleDescription(this, 'desc13')">Descripción</button>
+          <div id="desc13" class="chart-description" style="display: none;">
+            <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
+            <button onclick="closeDescription('desc13')">Cerrar</button>
+          </div>
         </div>
       </div>
       
@@ -718,9 +840,35 @@
             }
           });
         });
+        function toggleDescription(button, id) {
+          var description = document.getElementById(id);
+          if (description.style.display === "none" || !description.style.display) {
+            description.style.display = "block";
+            button.classList.add('active');
+          } else {
+            description.style.display = "none";
+            button.classList.remove('active');
+          }
+        }
+        
+        function closeDescription(id) {
+          var description = document.getElementById(id);
+          if (description) {
+            description.style.display = "none";
+            // Si el botón tiene la clase 'active', la removemos
+            var activeButton = document.querySelector('button.active[data-target="' + id + '"]');
+            if (activeButton) {
+              activeButton.classList.remove('active');
+            }
+          }
+        }
+        
+        // Asegúrate de que este código se ejecute después de que el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+          // El manejo del evento clic ahora se hace directamente en el HTML con onclick
+        });
+        
       </script>
-      
-      
     </div>
   </body>
   <footer class="footer">
