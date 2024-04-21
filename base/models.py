@@ -10117,6 +10117,7 @@ class Document(models.Model):
     prov_ent = models.CharField(max_length=255, choices=PROV_ENT_CHOICES, default="TODOS")
     nom_ent = models.CharField(max_length=255, choices=NOM_ENT_CHOICES, default="TODOS")
     num_clusters = models.IntegerField(default=3, choices=NUM_CLUSTERS)
+    
 class DocumentPrediccion(models.Model):
     document = models.FileField(upload_to='docs/', validators=[csv_validator], )
     num_clusters = models.IntegerField(default=3, choices=NUM_CLUSTERS)

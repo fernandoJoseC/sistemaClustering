@@ -13,6 +13,12 @@ class DocumentForm(forms.ModelForm):
             'tipo_cont':'Tipo de contratación',
             'num_clusters':'Escoja el número de clusters entre 2 hasta 5',
 		}
+        widgets = {
+            'document': forms.FileInput(attrs={'class': 'form-control'}),
+            'prov_ent': forms.Select(attrs={'class': 'form-control'}),
+            'tipo_cont': forms.Select(attrs={'class': 'form-control'}),
+            'num_clusters': forms.Select(attrs={'class': 'form-control'}),
+        }
 class DocumentPrediccionForm(forms.ModelForm):
 
     class Meta:
@@ -22,3 +28,7 @@ class DocumentPrediccionForm(forms.ModelForm):
 			'document':'',
             'num_clusters':'Escoja el número de clusters entre 2 hasta 5',
 		}
+        widgets = {
+            'document': forms.FileInput(attrs={'class': 'form-control'}),
+            'num_clusters': forms.Select(attrs={'class': 'form-control'}),
+        }

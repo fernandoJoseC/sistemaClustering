@@ -1,13 +1,51 @@
 {% extends "base.html" %}
 {% load static%}
+{% load crispy_forms_tags %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Sistema de agrupamiento de datos por clustering</title>
     <style>
+      .form-control {
+        display: block;
+        width: 100%; /* Ocupa el ancho completo del contenedor padre */
+        padding: 0.375rem 0.75rem; /* Espaciado interno para que el texto no esté justo en el borde */
+        font-size: 1rem; /* Tamaño de fuente estándar */
+        font-weight: 400; /* Peso de la fuente normal */
+        line-height: 1.5; /* Altura de línea para un buen espaciado de texto */
+        color: #495057; /* Color de texto oscuro para mejor legibilidad */
+        background-color: #fff; /* Fondo blanco */
+        background-clip: padding-box; /* Asegura que el fondo solo cubre el área de padding */
+        border: 1px solid #ced4da; /* Borde sutil */
+        border-radius: 0.25rem; /* Bordes redondeados */
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Transición suave para efectos hover y focus */
+    
+        /* Efecto de sombra al enfocar el campo (focus) */
+        box-shadow: none; /* Sin sombra inicialmente */
+      }
+      
+      .form-control:focus {
+          color: #495057; /* Mantiene el color del texto al enfocar */
+          background-color: #fff; /* Mantiene el fondo blanco al enfocar */
+          border-color: #80bdff; /* Cambia el color del borde a un azul claro al enfocar */
+          outline: 0; /* Elimina el contorno que los navegadores colocan al enfocar */
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Añade una sombra ligera con un halo azul */
+      }
+      
+      /* Estilo para manejar la apariencia cuando el campo tiene un valor inválido */
+      .form-control.is-invalid {
+          border-color: #e3342f; /* Borde rojo para indicar error */
+          background-image: none; /* Sin imagen de fondo */
+      }
+      
+      /* Estilo para manejar la apariencia cuando el campo tiene un valor válido */
+      .form-control.is-valid {
+          border-color: #38c172; /* Borde verde para indicar valor válido */
+      }
       body,
       html {
         height: 100%;
@@ -37,12 +75,13 @@
         gap: 20px; /* Space between items */
       }
       .translation-box {
-        background-color: #ffffff;
+        background-color: #EBA902;
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         padding: 40px;
-        width: 60%;
-        max-width: 800px;
+        width: 50%; /* Aumentar el porcentaje según necesidad */
+        max-width: 960px; /* O un máximo en píxeles que prefieras */
+        margin: auto; /* Para centrar el contenedor si es más pequeño que el ancho de la ventana */
       }
       .file-types {
         display: flex;
@@ -130,31 +169,114 @@
         margin-top: 20px; /* Añade un margen arriba para separarlo del contenido */
         font-size: 16px; /* Tamaño del texto */
       }
-      <style>
-        /* Estilos para los labels de los checkboxes */
-        .chart-label {
-          display: inline-block; /* Alinea los checkboxes horizontal o verticalmente */
-          background-color: #f5f5f5; /* Color de fondo ligero para contraste */
-          color: #9c1944; /* Color del texto para coincidir con el esquema de color principal */
-          margin: 10px; /* Espacio alrededor de los labels para evitar aglomeración */
-          padding: 5px 10px; /* Padding para dar más espacio dentro del label */
-          border-radius: 5px; /* Bordes redondeados para suavizar la apariencia */
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
-          cursor: pointer; /* Indica al usuario que el label es interactivo */
-        }
+    
+      /* Estilos para los labels de los checkboxes */
+      .chart-label {
+        display: inline-block; /* Alinea los checkboxes horizontal o verticalmente */
+        background-color: #f5f5f5; /* Color de fondo ligero para contraste */
+        color: #9c1944; /* Color del texto para coincidir con el esquema de color principal */
+        margin: 10px; /* Espacio alrededor de los labels para evitar aglomeración */
+        padding: 5px 10px; /* Padding para dar más espacio dentro del label */
+        border-radius: 5px; /* Bordes redondeados para suavizar la apariencia */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+        cursor: pointer; /* Indica al usuario que el label es interactivo */
+      }
+    
+      /* Estilo para los checkboxes para que coincidan con el estilo de los labels */
+      .chart-label input[type="checkbox"] {
+        margin-right: 5px; /* Espacio entre el checkbox y el texto */
+      }
+    
+      /* Cambios al hacer hover sobre los labels para mejorar la interactividad */
+      .chart-label:hover {
+        background-color: #eaeaea; /* Ligeramente más oscuro al pasar el mouse */
+      }
+      .mi-formulario {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #ffffff;  /* Fondo claro para los formularios */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra sutil para dar profundidad */
+        font-family: 'Arial', sans-serif;  /* Tipografía coherente */
+      }
       
-        /* Estilo para los checkboxes para que coincidan con el estilo de los labels */
-        .chart-label input[type="checkbox"] {
-          margin-right: 5px; /* Espacio entre el checkbox y el texto */
-        }
+      .mi-formulario .form-group {
+          margin-bottom: 20px;  /* Más espacio entre campos */
+      }
       
-        /* Cambios al hacer hover sobre los labels para mejorar la interactividad */
-        .chart-label:hover {
-          background-color: #eaeaea; /* Ligeramente más oscuro al pasar el mouse */
-        }
-      </style>
+      .mi-formulario .form-control {
+          width: 100%;
+          padding: 12px 15px;  /* Más padding para mejor accesibilidad */
+          border: 1px solid #ccc;  /* Borde sutil */
+          border-radius: 4px;  /* Bordes redondeados */
+          box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);  /* Sombra interior para efecto de profundidad */
+          transition: border-color 0.3s;  /* Transición suave del color del borde */
+      }
       
+      .mi-formulario .form-control:focus {
+          border-color: #9c1944;  /* Cambio de color al enfocar */
+          outline: none;  /* Elimina el contorno predeterminado */
+      }
+      
+      .mi-formulario .login-button {
+          background-color: #9c1944;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;  /* Transición suave del color de fondo */
+      }
+      
+      .mi-formulario .login-button:hover {
+          background-color: #45a049;  /* Cambio de color al pasar el mouse */
+      }
+      /* Establece tus contenedores para usar flexbox y envolver cuando sea necesario */
+      .charts-container, .charts-container2 {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between; /* Esto colocará espacio entre tus tarjetas */
+          align-items: flex-start;
+          gap: 20px; /* Define el espacio entre las tarjetas, puedes ajustar este valor a tu gusto */
+      }
+      .chart, .chart2 {
+        width: calc(45%); /* Ajusta los 10px según el espacio que desees entre tarjetas */
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        box-sizing: border-box; /* Asegura que el padding y el borde están incluidos en el ancho */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      /* Para pantallas más pequeñas, puedes querer que las tarjetas tomen el 100% del ancho */
+      @media (max-width: 768px) {
+          .chart, .chart2 {
+              width: 100%; /* Las tarjetas se expandirán para ocupar el ancho completo en dispositivos móviles */
+          }
+      }
+      
+      
+      .chart:hover, .chart2:hover {
+          transform: translateY(-5px); /* Mueve la tarjeta ligeramente hacia arriba al pasar el mouse */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el mouse */
+      }
+      
+      /* Si deseas agregar un encabezado a la tarjeta, puedes usar algo como esto: */
+      .chart-header, .chart2-header {
+          padding-bottom: 10px; /* Espaciado debajo del encabezado de la tarjeta */
+          margin-bottom: 20px; /* Margen debajo del encabezado de la tarjeta */
+          border-bottom: 1px solid #eee; /* Línea debajo del encabezado para separarlo del contenido */
+          text-align: center; /* Centrado de texto */
+          color: #333; /* Color de texto oscuro para contraste */
+          font-size: 1.25rem; /* Tamaño de fuente para el encabezado */
+      }    
     </style>
+    
   </head>
   <body>
     <div class="header">
@@ -167,51 +289,21 @@
     </div>
     
     <div class="content">
+      
+    
       <div class="translation-box">
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %} {{form}}
+        <form method="POST" enctype="multipart/form-data" class="mi-formulario">
+          {% csrf_token %}
+          <!--{% for field in form %}
+              <div class="form-group">
+                  {{ field.label_tag }}
+                  {{ field }}
+              </div>
+          {% endfor %}-->
+          {{form | crispy}}
           <button type="submit" class="login-button">Iniciar</button>
         </form>
-        <!--
-
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart" checked>
-            Mostrar/Ocultar Gráfico Presupuesto por Provincias
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart2" checked>
-            Mostrar/Ocultar Gráfico Valor Adjudicado por Provincias
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart3" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores por Provincias
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart4" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 1 por Provincias
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart5" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 2 por Provincias
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart6" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 3 por Provincias
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart7" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 1 por Tipo de Contratación
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart8" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 2 por Tipo de Contratación
-          </label>
-          <label class="chart-label">
-            <input type="checkbox" class="graph-toggle" data-target="myChart9" checked>
-            Mostrar/Ocultar Gráfico Diferencia de valores en Grupo 3 por Tipo de Contratación
-          </label>
-        -->
-        </div>
+      </div>
         
       <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
       <h3>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Agrupamiento el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los grupos que existen</h3>
