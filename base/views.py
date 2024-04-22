@@ -10,13 +10,14 @@ from django.utils.safestring import mark_safe
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import silhouette_score
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
 import os
 from pathlib import Path
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 
-class DataProcessor:
+'''class DataProcessor:
     def __init__(self, **kwargs):
         """Inicializa la instancia con configuraciones y carga el modelo y otros recursos."""
         super().__init__(**kwargs)  # Llamar al constructor de la clase base si es necesario
@@ -30,12 +31,100 @@ class DataProcessor:
 
 
         # Método personalizado para cargar datos o configuraciones adicionales
+    
+  '''  # Métodos adicionales para procesar datos, hacer predicciones, etc., pueden ir aquí
 
-    # Métodos adicionales para procesar datos, hacer predicciones, etc., pueden ir aquí
+def load_data(file_path):
+  datos = pd.read_csv(file_path).rename(columns={
+                            "Código Proceso":"codProceso",
+                            "Descripción compra":"desCompra",
+                            "Fecha Publicación":"fechaPub",
+                            "Fecha Adjudicación":"fechaAdj",
+                            "CPC N9":"codCPC",
+                            "Descripción CPC N9":"descCPC",
+                            "Tipo Contratación":"tipoCont",
+                            "Ruc Entidad":"rucEnt",
+                            "Nombre Entidad":"nomEnt",
+                            "Provincia Entidad":"provEnt",
+                            "Cantón Entidad":"cantEnt",
+                            "Ruc Proveedor":"rucProv",
+                            "Nombre Proveedor":"nomProv",
+                            "Presupuesto":"presupuesto",
+                            "Valor adjudicado":"valAdj"
+                        })
+  return datos
+
+def cluster_data(data, n_clusters):
+  minibatch_kmeans = MiniBatchKMeans(n_clusters=n_clusters, batch_size=1000, random_state=42)
+  clusters = minibatch_kmeans.fit_predict(data)
+  return clusters
+
+def calculate_totals_by_cluster(data, group_by_column, *sum_columns):
+    """
+    Calcula los totales de las columnas especificadas, agrupados por una columna dada.
+
+    Args:
+    data (pd.DataFrame): DataFrame sobre el cual realizar los cálculos.
+    group_by_column (str): Columna por la que se agrupará.
+    sum_columns (list of str): Columnas de las cuales calcular el total.
+
+    Returns:
+    dict: Un diccionario con DataFrames para cada columna sumada.
+    """
+    result = {}
+    for column in sum_columns:
+        grouped_data = data.groupby(group_by_column)[column].sum().reset_index()
+        result[column] = grouped_data
+    return result
+
+def calculate_average_difference_by_contract(data, num, group_by_column='cluster', target_column='tipoCont', value_column='diferencia'):
+    
+    cluster = num
+    filtered_data = data[data[group_by_column] == cluster]
+    lista = filtered_data.groupby(target_column)[value_column].mean().reset_index()
+    return lista
+
+def calculate_average_difference_by_province(data, num, group_by_column='cluster', target_column='provEnt', value_column='diferencia'):
+    
+    cluster = num
+    filtered_data = data[data[group_by_column] == cluster]
+    lista = filtered_data.groupby(target_column)[value_column].mean().reset_index()
+    return lista
+
+def data_to_list(data,group_by_column):
+    lista = data[group_by_column].tolist()
+    return lista
+    
+    
 
 
 
-
+provincias = {
+                "AZUAY": {"latitud": -2.898611, "longitud": -78.477778},
+                "BOLIVAR": {"latitud": -1.749722, "longitud": -78.166667},
+                "CAÑAR": {"latitud": -2.833333, "longitud": -78.666667},
+                "CARCHI": {"latitud": 0.783333, "longitud": -78.166667},
+                "CHIMBORAZO": {"latitud": -1.700833, "longitud": -78.666667},
+                "COTOPAXI": {"latitud": -0.683333, "longitud": -78.416667},
+                "EL ORO": {"latitud": -3.450000, "longitud": -79.916667},
+                "ESMERALDAS": {"latitud": 0.966667, "longitud": -79.666667},
+                "GALAPAGOS": {"latitud": -0.633333, "longitud": -90.333333},
+                "GUAYAS": {"latitud": -2.200000, "longitud": -79.883333},
+                "IMBABURA": {"latitud": 0.416667, "longitud": -78.416667},
+                "LOJA": {"latitud": -4.000000, "longitud": -79.216667},
+                "LOS RIOS": {"latitud": -1.500000, "longitud": -79.166667},
+                "MANABI": {"latitud": -0.500000, "longitud": -80.000000},
+                "MORONA SANTIAGO": {"latitud": -2.833333, "longitud": -77.833333},
+                "NAPO": {"latitud": -1.000000, "longitud": -77.833333},
+                "ORELLANA": {"latitud": -0.583333, "longitud": -76.833333},
+                "PASTAZA": {"latitud": -1.416667, "longitud": -77.833333},
+                "PICHINCHA": {"latitud": -0.250000, "longitud": -78.500000},
+                "SANTA ELENA": {"latitud": -2.250000, "longitud": -80.833333},
+                "SANTO DOMINGO DE LOS TSACHILAS": {"latitud": -0.250000, "longitud": -79.333333},
+                "SUCUMBIOS": {"latitud": -0.500000, "longitud": -76.833333},
+                "TUNGURAHUA": {"latitud": -1.416667, "longitud": -78.250000},
+                "ZAMORA CHINCHIPE": {"latitud": -4.083333, "longitud": -78.916667},
+            }
 
 @login_required
 def home(request):
@@ -60,7 +149,7 @@ def home(request):
 
             # Aquí lees el contenido del archivo CSV
             file_path = fs.path(name)
-            datos0 = (pd.read_csv(file_path).rename(columns={
+            '''datos0 = (pd.read_csv(file_path).rename(columns={
                             "Código Proceso":"codProceso",
                             "Descripción compra":"desCompra",
                             "Fecha Publicación":"fechaPub",
@@ -76,7 +165,8 @@ def home(request):
                             "Nombre Proveedor":"nomProv",
                             "Presupuesto":"presupuesto",
                             "Valor adjudicado":"valAdj"
-                        }))
+                        }))'''
+            datos0 = load_data(file_path)
 
             #AGREGAMOS LO DEL COLAB
             #########################################
@@ -97,7 +187,6 @@ def home(request):
 
             datos2 = datos2.drop(['rucEnt', 'rucProv'], axis=1)
 
-            from sklearn.preprocessing import LabelEncoder
             encoder = LabelEncoder()
 
             values = datos2['descCPC'].astype(str)
@@ -145,41 +234,14 @@ def home(request):
 
             #from scikit-learn.cluster import KMeans
 
+            
             # Aplicar Mini-Batch K-means
-            kmeans = MiniBatchKMeans(n_clusters=num_clusters, batch_size=1000, random_state=42)
-            clusters = kmeans.fit_predict(datos_clustering)
+            clusters = cluster_data(datos_clustering, num_clusters)
 
 
             datos1['valAdj_grupo'] = pd.cut(datos1['valAdj'], bins=rangos, right=False, labels=etiquetas)
 
             datos_csv_clustering = pd.concat([datos1, pd.DataFrame({'cluster': clusters})], axis=1)
-
-            provincias = {
-                "AZUAY": {"latitud": -2.898611, "longitud": -78.477778},
-                "BOLIVAR": {"latitud": -1.749722, "longitud": -78.166667},
-                "CAÑAR": {"latitud": -2.833333, "longitud": -78.666667},
-                "CARCHI": {"latitud": 0.783333, "longitud": -78.166667},
-                "CHIMBORAZO": {"latitud": -1.700833, "longitud": -78.666667},
-                "COTOPAXI": {"latitud": -0.683333, "longitud": -78.416667},
-                "EL ORO": {"latitud": -3.450000, "longitud": -79.916667},
-                "ESMERALDAS": {"latitud": 0.966667, "longitud": -79.666667},
-                "GALAPAGOS": {"latitud": -0.633333, "longitud": -90.333333},
-                "GUAYAS": {"latitud": -2.200000, "longitud": -79.883333},
-                "IMBABURA": {"latitud": 0.416667, "longitud": -78.416667},
-                "LOJA": {"latitud": -4.000000, "longitud": -79.216667},
-                "LOS RIOS": {"latitud": -1.500000, "longitud": -79.166667},
-                "MANABI": {"latitud": -0.500000, "longitud": -80.000000},
-                "MORONA SANTIAGO": {"latitud": -2.833333, "longitud": -77.833333},
-                "NAPO": {"latitud": -1.000000, "longitud": -77.833333},
-                "ORELLANA": {"latitud": -0.583333, "longitud": -76.833333},
-                "PASTAZA": {"latitud": -1.416667, "longitud": -77.833333},
-                "PICHINCHA": {"latitud": -0.250000, "longitud": -78.500000},
-                "SANTA ELENA": {"latitud": -2.250000, "longitud": -80.833333},
-                "SANTO DOMINGO DE LOS TSACHILAS": {"latitud": -0.250000, "longitud": -79.333333},
-                "SUCUMBIOS": {"latitud": -0.500000, "longitud": -76.833333},
-                "TUNGURAHUA": {"latitud": -1.416667, "longitud": -78.250000},
-                "ZAMORA CHINCHIPE": {"latitud": -4.083333, "longitud": -78.916667},
-            }
 
             datos_csv_clustering['Latitud'] = datos_csv_clustering['provEnt'].map(lambda x: provincias[x]['latitud'])
             datos_csv_clustering['Longitud'] = datos_csv_clustering['provEnt'].map(lambda x: provincias[x]['longitud'])
@@ -204,69 +266,97 @@ def home(request):
             else:
                 data_filtrada = data_filtrada_provincias
 
-            total_presupuesto_por_cluster = data_filtrada.groupby('cluster')['presupuesto'].sum().reset_index()
-            total_valAdj_por_cluster = data_filtrada.groupby('cluster')['valAdj'].sum().reset_index()
+            # Uso de la función
+            totals = calculate_totals_by_cluster(data_filtrada, 'cluster', 'presupuesto', 'valAdj')
+
+            total_presupuesto_por_cluster = totals['presupuesto']
+            total_valAdj_por_cluster = totals['valAdj']
+            '''total_presupuesto_por_cluster = data_filtrada.groupby('cluster')['presupuesto'].sum().reset_index()
+            total_valAdj_por_cluster = data_filtrada.groupby('cluster')['valAdj'].sum().reset_index()'''
             total_diferencia_por_cluster = data_filtrada.groupby('cluster')['diferencia'].mean().reset_index()
 
             total_promedio_diferencia_tipo_cero = datos.groupby('tipoCont')['diferencia'].mean().reset_index()
 
             # Convertir los resultados en listas para facilitar su uso posterior
-            clusters = total_presupuesto_por_cluster['cluster'].tolist()
+            # Uso de la función, asumiendo que `totals` ya fue definido como en el ejemplo anterior
+            
+            clusters = data_to_list(total_presupuesto_por_cluster, 'cluster')
+            totales_presupuesto_cluster = data_to_list(total_presupuesto_por_cluster, 'presupuesto')
+            totales_valAdj_cluster = data_to_list(total_valAdj_por_cluster, 'valAdj')
+            totales_diferencia_cluster = data_to_list(total_diferencia_por_cluster, 'diferencia')
+            '''clusters = total_presupuesto_por_cluster['cluster'].tolist()
             totales_presupuesto_cluster = total_presupuesto_por_cluster['presupuesto'].tolist()
             totales_valAdj_cluster = total_valAdj_por_cluster['valAdj'].tolist()
-            totales_diferencia_cluster = total_diferencia_por_cluster['diferencia'].tolist()
+            totales_diferencia_cluster = total_diferencia_por_cluster['diferencia'].tolist()'''
+
+            # Ejemplo de cómo usar esta función
+            # Suponiendo que `data_filtrada` es tu DataFrame ya filtrado:
+            #average_differences = calculate_average_difference_by_contract(data_filtrada, 0)
+            total_promedio_diferencia_tipo_cero = calculate_average_difference_by_contract(data_filtrada, 0)
+            total_promedio_diferencia_tipo_uno = calculate_average_difference_by_contract(data_filtrada, 1)
+            total_promedio_diferencia_tipo_dos = calculate_average_difference_by_contract(data_filtrada, 2)
+            total_promedio_diferencia_tipo_tres = calculate_average_difference_by_contract(data_filtrada, 3)
+            total_promedio_diferencia_tipo_cuatro = calculate_average_difference_by_contract(data_filtrada, 4)
+            
 
             # Calculate the average difference for each type of contract
             
-            total_promedio_diferencia_tipo_cero = data_filtrada[data_filtrada['cluster']==0].groupby('tipoCont')['diferencia'].mean().reset_index()
+            '''total_promedio_diferencia_tipo_cero = data_filtrada[data_filtrada['cluster']==0].groupby('tipoCont')['diferencia'].mean().reset_index()
             total_promedio_diferencia_tipo_uno = data_filtrada[data_filtrada['cluster']==1].groupby('tipoCont')['diferencia'].mean().reset_index()
             total_promedio_diferencia_tipo_dos = data_filtrada[data_filtrada['cluster']==2].groupby('tipoCont')['diferencia'].mean().reset_index()
             total_promedio_diferencia_tipo_tres = data_filtrada[data_filtrada['cluster']==3].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_cuatro = data_filtrada[data_filtrada['cluster']==4].groupby('tipoCont')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_tipo_cuatro = data_filtrada[data_filtrada['cluster']==4].groupby('tipoCont')['diferencia'].mean().reset_index()'''
 
             if tipo_cont == "Todos":
                 data_filtrada_tipo = datos
             else:
                 data_filtrada_tipo = data_filtrada_tipo_cont
+            
+            total_promedio_diferencia_provincia_cero = calculate_average_difference_by_province(data_filtrada_tipo, 0)
+            total_promedio_diferencia_provincia_uno = calculate_average_difference_by_province(data_filtrada_tipo, 1)
+            total_promedio_diferencia_provincia_dos = calculate_average_difference_by_province(data_filtrada_tipo, 2)
+            total_promedio_diferencia_provincia_tres = calculate_average_difference_by_province(data_filtrada_tipo, 3)
+            total_promedio_diferencia_provincia_cuatro = calculate_average_difference_by_province(data_filtrada_tipo, 4)
 
-            total_promedio_diferencia_provincia_cero = data_filtrada_tipo[data_filtrada_tipo['cluster']==0].groupby('provEnt')['diferencia'].mean().reset_index()
+            '''total_promedio_diferencia_provincia_cero = data_filtrada_tipo[data_filtrada_tipo['cluster']==0].groupby('provEnt')['diferencia'].mean().reset_index()
             total_promedio_diferencia_provincia_uno = data_filtrada_tipo[data_filtrada_tipo['cluster']==1].groupby('provEnt')['diferencia'].mean().reset_index()
             total_promedio_diferencia_provincia_dos = data_filtrada_tipo[data_filtrada_tipo['cluster']==2].groupby('provEnt')['diferencia'].mean().reset_index()
             total_promedio_diferencia_provincia_tres = data_filtrada_tipo[data_filtrada_tipo['cluster']==3].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_cuatro = data_filtrada_tipo[data_filtrada_tipo['cluster']==4].groupby('provEnt')['diferencia'].mean().reset_index()
+            total_promedio_diferencia_provincia_cuatro = data_filtrada_tipo[data_filtrada_tipo['cluster']==4].groupby('provEnt')['diferencia'].mean().reset_index()'''
            
 
             #Filtro por el tipo de contratacion el promedio de la diferencia
-            #total_promedio_diferencia_tipo = total_promedio_diferencia_tipo[total_promedio_diferencia_tipo['cluster'] == "0"]
-            tipos_contrato_cero = total_promedio_diferencia_tipo_cero['tipoCont'].tolist()
-            totales_promedio_diferencia_tipo_cero = total_promedio_diferencia_tipo_cero['diferencia'].tolist()
+            tipos_contrato_cero = data_to_list(total_promedio_diferencia_tipo_cero, 'tipoCont')
+            #tipos_contrato_cero = total_promedio_diferencia_tipo_cero['tipoCont'].tolist()
+            totales_promedio_diferencia_tipo_cero = data_to_list(total_promedio_diferencia_tipo_cero, 'diferencia')
+            #totales_promedio_diferencia_tipo_cero = total_promedio_diferencia_tipo_cero['diferencia'].tolist()
 
-            tipos_contrato_uno = total_promedio_diferencia_tipo_uno['tipoCont'].tolist()
-            totales_promedio_diferencia_tipo_uno = total_promedio_diferencia_tipo_uno['diferencia'].tolist()
+            tipos_contrato_uno = data_to_list(total_promedio_diferencia_tipo_uno, 'tipoCont')
+            totales_promedio_diferencia_tipo_uno = data_to_list(total_promedio_diferencia_tipo_uno, 'diferencia')
 
-            tipos_contrato_dos = total_promedio_diferencia_tipo_dos['tipoCont'].tolist()
-            totales_promedio_diferencia_tipo_dos = total_promedio_diferencia_tipo_dos['diferencia'].tolist()
+            tipos_contrato_dos = data_to_list(total_promedio_diferencia_tipo_dos, 'tipoCont')
+            totales_promedio_diferencia_tipo_dos = data_to_list(total_promedio_diferencia_tipo_dos, 'diferencia')
 
-            tipos_contrato_tres = total_promedio_diferencia_tipo_tres['tipoCont'].tolist()
-            totales_promedio_diferencia_tipo_tres = total_promedio_diferencia_tipo_tres['diferencia'].tolist()
+            tipos_contrato_tres = data_to_list(total_promedio_diferencia_tipo_tres, 'tipoCont')
+            totales_promedio_diferencia_tipo_tres = data_to_list(total_promedio_diferencia_tipo_tres, 'diferencia')
 
-            tipos_contrato_cuatro = total_promedio_diferencia_tipo_cuatro['tipoCont'].tolist()
-            totales_promedio_diferencia_tipo_cuatro = total_promedio_diferencia_tipo_cuatro['diferencia'].tolist()
+            tipos_contrato_cuatro = data_to_list(total_promedio_diferencia_tipo_cuatro, 'tipoCont')
+            totales_promedio_diferencia_tipo_cuatro = data_to_list(total_promedio_diferencia_tipo_cuatro, 'diferencia')
 
-            provincias_cero = total_promedio_diferencia_provincia_cero['provEnt'].tolist()
-            totales_promedio_diferencia_provincia_cero = total_promedio_diferencia_provincia_cero['diferencia'].tolist()
+            provincias_cero = data_to_list(total_promedio_diferencia_provincia_cero, 'provEnt')
+            totales_promedio_diferencia_provincia_cero = data_to_list(total_promedio_diferencia_provincia_cero, 'diferencia')
 
-            provincias_uno = total_promedio_diferencia_provincia_uno['provEnt'].tolist()
-            totales_promedio_diferencia_provincia_uno = total_promedio_diferencia_provincia_uno['diferencia'].tolist()
+            provincias_uno = data_to_list(total_promedio_diferencia_provincia_uno, 'provEnt')
+            totales_promedio_diferencia_provincia_uno = data_to_list(total_promedio_diferencia_provincia_uno, 'diferencia')
 
-            provincias_dos = total_promedio_diferencia_provincia_dos['provEnt'].tolist()
-            totales_promedio_diferencia_provincia_dos = total_promedio_diferencia_provincia_dos['diferencia'].tolist()
+            provincias_dos = data_to_list(total_promedio_diferencia_provincia_dos, 'provEnt')
+            totales_promedio_diferencia_provincia_dos = data_to_list(total_promedio_diferencia_provincia_dos, 'diferencia')
 
-            provincias_tres = total_promedio_diferencia_provincia_tres['provEnt'].tolist()
-            totales_promedio_diferencia_provincia_tres = total_promedio_diferencia_provincia_tres['diferencia'].tolist()
+            provincias_tres = data_to_list(total_promedio_diferencia_provincia_tres, 'provEnt')
+            totales_promedio_diferencia_provincia_tres = data_to_list(total_promedio_diferencia_provincia_tres, 'diferencia')
 
-            provincias_cuatro = total_promedio_diferencia_provincia_cuatro['provEnt'].tolist()
-            totales_promedio_diferencia_provincia_cuatro = total_promedio_diferencia_provincia_cuatro['diferencia'].tolist()
+            provincias_cuatro = data_to_list(total_promedio_diferencia_provincia_cuatro, 'provEnt')
+            totales_promedio_diferencia_provincia_cuatro = data_to_list(total_promedio_diferencia_provincia_cuatro, 'diferencia')
 
             df = pd.DataFrame({
                 'cluster': clusters,
@@ -804,9 +894,9 @@ def upload_form(request):
  return render(request, "home.html", context)
 
 # Ejemplo de uso
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     try:
         processor = DataProcessor()
         # Aquí se podrían agregar más llamadas a métodos, como processor.process_data()
     except Exception as e:
-        print(f"Error al inicializar DataProcessor: {e}")
+        print(f"Error al inicializar DataProcessor: {e}")'''
