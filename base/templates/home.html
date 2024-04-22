@@ -682,6 +682,7 @@
           const data11 = JSON.parse('{{ df11_json|safe }}');
           const data12 = JSON.parse('{{ df12_json|safe }}');
           const data13 = JSON.parse('{{ df13_json|safe }}');
+          const label = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'];
 
 
           //
@@ -689,7 +690,7 @@
           const chart1 = new Chart(ctx1, {
             type: 'bar',
             data: {
-              labels: data1.map(item => item.cluster),
+              labels: label,
               
               datasets: [{
                 label: 'Presupuesto por Cluster',
@@ -702,7 +703,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -713,7 +720,7 @@
           const chart2 = new Chart(ctx2, {
             type: 'bar',
             data: {
-              labels: data2.map(item => item.cluster),
+              labels: label,
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
                 label: 'Val Adj por Cluster',
@@ -726,7 +733,14 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
+
                 }
               }
             }
@@ -736,7 +750,7 @@
           const chart3 = new Chart(ctx3, {
             type: 'bar',
             data: {
-              labels: data3.map(item => item.cluster),
+              labels: label,
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
                 label: 'Diferencia por Cluster',
@@ -749,7 +763,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -772,7 +792,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -794,7 +820,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -816,7 +848,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -838,7 +876,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -860,7 +904,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -882,7 +932,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -904,7 +960,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -926,7 +988,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -948,7 +1016,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
@@ -970,7 +1044,13 @@
             options: {
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
                 }
               }
             }
