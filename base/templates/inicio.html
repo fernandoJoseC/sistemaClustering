@@ -1,6 +1,4 @@
-{% extends "base.html" %}
-{% load static%}
-{% block content %}
+{% extends "base.html" %} {% load static%} {% block content %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -93,18 +91,22 @@
         align-items: flex-start; /* Align items at the start of the container */
       }
       .chart {
-        width: calc(33.3333% - 10px); /* Adjust the width to account for any margin or padding */
+        width: calc(
+          33.3333% - 10px
+        ); /* Adjust the width to account for any margin or padding */
         margin: 5px; /* Optional margin for spacing between charts */
       }
       .chart2 {
-        width: calc(50% - 10px); /* Adjust the width to account for any margin or padding */
+        width: calc(
+          50% - 10px
+        ); /* Adjust the width to account for any margin or padding */
         margin: 5px; /* Optional margin for spacing between charts */
       }
       canvas {
         max-width: 100%; /* Ensures the canvas is responsive and fits its container */
         height: auto; /* Adjust the height to maintain aspect ratio */
       }
-      
+
       button {
         background-color: #9c1944; /* Color de fondo */
         color: white; /* Color del texto */
@@ -118,9 +120,9 @@
         font-size: 16px; /* Tamaño del texto */
         border-radius: 15px; /* Aquí se añade el borde redondeado */
       }
-      
+
       button:hover {
-        background-color: #EBA902; /* Color de fondo al pasar el mouse */
+        background-color: #eba902; /* Color de fondo al pasar el mouse */
       }
       .footer {
         background-color: #9c1944; /* Color de fondo */
@@ -135,62 +137,61 @@
   <body>
     <div class="header">
       <h1>Sistema de Agrupamiento de Datos por Clustering</h1>
-      <button onclick="window.location.href='{% url 'base:logout' %}';">Salir</button>
-      <button onclick="window.location.href='{% url 'base:home' %}';">Ir a Home</button>
+      <button onclick="window.location.href='{% url 'base:logout' %}';">
+        Salir
+      </button>
+      <button onclick="window.location.href='{% url 'base:home' %}';">
+        Ir a Home
+      </button>
     </div>
     <div class="content">
-
-        
-        <div
+      <div
         class="tableauPlaceholder"
-        id="viz1711837396862"
+        id="viz1713751218299"
         style="position: relative"
-        >
+      >
         <noscript
-        >
-        <a href="#"
+          ><a href="#"
             ><img
-            alt=" "
-            src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv7&#47;INICIO&#47;1_rss.png"
-            style="border: none" /></a></noscript
-            ><object class="tableauViz" style="display: none">
-                <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
-                <param name="embed_code_version" value="3" />
-                <param name="site_root" value="" />
-                <param name="name" value="DatosClusteringUIDEv7&#47;INICIO" />
-                <param name="tabs" value="no" />
-                <param name="toolbar" value="yes" />
-                <param
-                name="static_image"
-                value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv7&#47;INICIO&#47;1.png"
-                />
-                <param name="animate_transition" value="yes" />
-                <param name="display_static_image" value="yes" />
-                <param name="display_spinner" value="yes" />
-                <param name="display_overlay" value="yes" />
-                <param name="display_count" value="yes" />
-                <param name="language" value="es-ES" />
-                <param name="filter" value="publish=yes" />
-            </object>
-        </div>
-    </div>
-      
+              alt=" "
+              src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv9&#47;INICIO&#47;1_rss.png"
+              style="border: none" /></a></noscript
+        ><object class="tableauViz" style="display: none">
+          <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+          <param name="embed_code_version" value="3" />
+          <param name="site_root" value="" />
+          <param name="name" value="DatosClusteringUIDEv9&#47;INICIO" />
+          <param name="tabs" value="no" />
+          <param name="toolbar" value="yes" />
+          <param
+            name="static_image"
+            value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DatosClusteringUIDEv9&#47;INICIO&#47;1.png"
+          />
+          <param name="animate_transition" value="yes" />
+          <param name="display_static_image" value="yes" />
+          <param name="display_spinner" value="yes" />
+          <param name="display_overlay" value="yes" />
+          <param name="display_count" value="yes" />
+          <param name="language" value="es-ES" />
+          <param name="filter" value="publish=yes" />
+        </object>
+      </div>
       <script type="text/javascript">
-          var divElement = document.getElementById("viz1711837396862");
-          var vizElement = divElement.getElementsByTagName("object")[0];
-          if (divElement.offsetWidth > 800) {
-              vizElement.style.width = "100%";
-              vizElement.style.maxWidth = "2050px";
-              vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
-              vizElement.style.maxHeight = "5087px";
-            } else if (divElement.offsetWidth > 500) {
-                vizElement.style.width = "100%";
-                vizElement.style.maxWidth = "2050px";
-                vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
-                vizElement.style.maxHeight = "5087px";
-            } else {
-                vizElement.style.width = "100%";
-                vizElement.style.height = "2327px";
+        var divElement = document.getElementById("viz1713751218299");
+        var vizElement = divElement.getElementsByTagName("object")[0];
+        if (divElement.offsetWidth > 800) {
+          vizElement.style.width = "100%";
+          vizElement.style.maxWidth = "2050px";
+          vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+          vizElement.style.maxHeight = "5087px";
+        } else if (divElement.offsetWidth > 500) {
+          vizElement.style.width = "100%";
+          vizElement.style.maxWidth = "2050px";
+          vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+          vizElement.style.maxHeight = "5087px";
+        } else {
+          vizElement.style.width = "100%";
+          vizElement.style.height = "977px";
         }
         var scriptElement = document.createElement("script");
         scriptElement.src =
@@ -199,8 +200,6 @@
       </script>
     </div>
   </body>
-  <footer class="footer">
-    Propiedad de la UIDE
-  </footer>
+  <footer class="footer">Propiedad de la UIDE</footer>
 </html>
 {% endblock content %}

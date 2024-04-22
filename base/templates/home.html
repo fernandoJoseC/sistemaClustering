@@ -339,6 +339,47 @@
         color: black;
         font-size: 20px;
       }
+      .row {
+        display: flex; /* Activa Flexbox para la fila */
+        flex-wrap: wrap; /* Permite que los elementos de la fila se envuelvan según sea necesario */
+        justify-content: space-between; /* Distribuye espacio uniformemente entre columnas */
+        align-items: stretch; /* Alinea los elementos de columna verticalmente */
+      }
+      
+      .column {
+          flex: 1 1 30%; /* Permite que cada columna crezca pero no exceda del 30% del ancho del contenedor */
+          margin: 10px; /* Añade un margen alrededor de cada columna para separarlas */
+          padding: 20px; /* Espaciado interno dentro de cada columna */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+          background-color: #ffffff; /* Fondo blanco para la columna */
+          border-radius: 8px; /* Bordes redondeados */
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .column:hover {
+        transform: translateY(-5px); /* Eleva la tarjeta al pasar el mouse */
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada al pasar el mouse */
+    }
+      
+      /* Estilos para responder a diferentes tamaños de pantalla */
+      @media (max-width: 1024px) {
+          .column {
+              flex: 1 1 45%; /* Dos columnas por fila en pantallas medianas */
+          }
+      }
+      
+      @media (max-width: 768px) {
+          .column {
+              flex: 1 1 100%; /* Una columna por fila en pantallas pequeñas */
+          }
+      }    
+      .descVariables h3 {
+        color : #EBA902;
+        font-size: 20px;
+      }
+      .descVariables h2 {
+        color : white;
+        font-size: 20px;
+      }
       
     </style>
     
@@ -356,28 +397,92 @@
 
     
     <div class="content">
+      <h1>Introducción</h1>
+      <div class="descVariables">
+        <div class="row">
+          <div class="column">
+            <h3>Clustering</h3>
+            <p>El clustering, o agrupamiento, es una técnica de análisis de datos que organiza objetos en grupos basados en su similitud. Se utiliza ampliamente para descubrir estructuras en los datos y mejorar la toma de decisiones.</p>
+          </div>
+          <div class="column">
+            <h3>Clusters o Grupos</h3>
+            <p>El agrupamiento de los datos se realiza dependiendo del número de clusters que nosotros definamos, estos clusters podemos denominarlos como grupos para una mejor comprensión de los resultados y las gráficas.</p>
+            <button onclick="toggleDescription(this, 'info3')">Leer más</button>
+            <div id="info3" class="chart-description" style="display: none;">
+              <!-- Aquí irá la descripción que quieres mostrar -->
+              <p>Al momento de realizar clustering, el resultado de este procedimiento son a qué cluster pertenece cada observación o proceso de compra, se asigna desde el 0 hasta el total de clusters que hayamos definido, es así que:</p>
+              <p>Los datos que pertenecen al Cluster 0, son igualmente los datos que pertenecen al Grupo 1</p>
+              <p>Los datos que pertenecen al Cluster 1, son igualmente los datos que pertenecen al Grupo 2</p>
+              <p>Los datos que pertenecen al Cluster 2, son igualmente los datos que pertenecen al Grupo 3</p>
+              <p>Los datos que pertenecen al Cluster 3, son igualmente los datos que pertenecen al Grupo 4</p>
+              <p>Los datos que pertenecen al Cluster 4, son igualmente los datos que pertenecen al Grupo 5</p>
+              <p>En resumen, por ejemplo, si observamos que hay datos en el cluster 2, podemos decir que son los mismos datos que están en el Grupo 3</p>
+              <button onclick="closeDescription('info3')">Cerrar</button>
+            </div>
+          </div>
+          <div class="column">
+            <h3>Filtros para realizar el agrupamiento</h3>
+            <p>Primeramente se debe de subir un archivo en formato CSV, este puede ser descargado de la pagina de la SERCOP; tambien puede usarse cualquier otro CSV que contenga las mismas variables para el proceso de agrupamiento.</p>
+            <button onclick="toggleDescription(this, 'info1')">Leer más</button>
+            <div id="info1" class="chart-description" style="display: none;">
+              <!-- Aquí irá la descripción que quieres mostrar -->
+              <h2>Nombre de la Provincia</h2>
+              <p>Se puede filtrar qué Provincia es la que queremos visualizar, puede ser una provincia en específico o Todas.</p>
+              <h2>Tipo de Contratación</h2>
+              <p>Se puede filtrar qué Tipo de Contratación queremos visualizar, igualmente se puede escoger un Tipo de Contratación, o Todos.</p>
+              <h2>Número de Clusters</h2>
+              <p>Podemos escoger en cuántos grupos/clusters queremos que nuestros datos se agrupen. Se recomienda que se realice un análisis agrupando con diferentes números de clusters para que se pueda apreciar cómo se agrupan mejor nuestros datos y podamos tomar mejores decisiones.</p>
+              <p>Si desea conocer más información sobre el portal web de la SERCOP, puedes acceder desde aqui <a href="https://portal.compraspublicas.gob.ec/sercop/cifras/">Acceso al portal de cifras de compras públicas</a></p>
+              <button onclick="closeDescription('info1')">Cerrar</button>
+            </div>
+          </div>
+          <div class="column">
+            <h3>Introducción de los gráficos</h3>
+            <p>Cada gráfico generado a partir de la carga y filtrado del archivo CSV, generará diferentes gráficas las cuales describirán el resultado del agrupamiento por clusters.</p>
+            <button onclick="toggleDescription(this, 'info2')">Leer más</button>
+            <div id="info2" class="chart-description" style="display: none;">
+              <!-- Aquí irá la descripción que quieres mostrar -->
+              <h2>Presupuesto Total por Grupos</h2>
+              <p>Este gráfico representa el total del presupuesto por cada grupo o cluster que se haya definido al momento de realizar el agrupamiento. Este gráfico nos ayudará a definir cúanto se ha presupuestado por cada grupo generado.</p>
+              <p>De igual manera si aplicamos el filtro de Provincia, se visualizará el Presupuesto Total por cada Grupo en esa provincia en específico.</p>
+              <h2>Valor Adjudicado por Grupos</h2>
+              <p>Este gráfico representa el total del valor adjudicado por cada grupo o cluster que se haya definido al momento de realizar el agrupamiento. Este gráfico nos ayudará a definir cúanto se ha gastado, del presupuesto inicial asignado, realmente por cada grupo generado.</p>
+              <h2>Diferencia por Grupos</h2>
+              <p>Este grafico es el resulato de haber realizado un cálculo entre el presupuesto y el valor adjudicado. El resultado de la diferencia entre el presupuesto y el valor adjudicado de cada proceso de compra, calculamos su promedio por cada cluster o grupo y lo presentamos en esta gráfica. Esta gráfica nos ayudará a determinar en qué grupo es donde más existe diferencia entre el valor inicial presupuestado, y el valor que se terminó pagando por ese proceso de compra.</p>
+              <h2>Diferencia por Tipo de Contratación</h2>
+              <p>Las gráficas se generan dependiendo de cúantos grupos o clusters hayamos escogido inicialmente, si se realizó el agrupamiento con 2 clusters, se generarán unicamente dos gráficos.</p>
+              <p>Estas gráficas indican la diferencia que hay en cada tipo de contratación que se obtenga del archivo CSV, si se aplicó el filtro de Nombre de Provincia, se visualizará unicamente la diferencia que hay en cada tipo de contratación para esa provincia en específico.</p>
+              <h2>Diferencias por Provincia</h2>
+              <p>Estas gráficcas indican la diferencia que existe en cada provincia por cada grupo o cluster, si se aplicó el filtro de Tipo de Contratación, se visualizará unicamente la diferencia que hay en cada provincia para ese tipo de contratación en específico. </p>
+              <button onclick="closeDescription('info2')">Cerrar</button>
+            </div>
+          </div>
+        </div>    
+      </div>
       <div class="titulos">
         <h1>Gráficas basadas en el agrupamiento de los procesos de compra basado en sus características</h1>
-        <p>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Agrupamiento el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los grupos que existen</p>
+        <p>Estas gráficas son el resultado de haber realizado el agrupamiento de cada uno de los procesos de compra que se encontraban en el archivo con formato CSV. Este sistema realiza un agrupamiento mediante un modelo de Clustering el cual se encarga de agrupar cada proceso de compra, dependiendo de sus características, a cada uno de los Clusters o Grupos que se definan al momento de realizar el proceso</p>
       </div>
-      <div class="translation-box">
-        <h2>Sube un documento CSV</h2>
-        <form method="POST" enctype="multipart/form-data" class="mi-formulario">
-          {% csrf_token %}
-          {{form | crispy}}
-          <button type="submit" class="login-button">Iniciar</button>
-        </form>
-      </div>
-
-      <div class="charts-container">
-        <div class="chart2" id="chart1Container">
-          <h2>Presupuesto Total por Grupos</h2>
-          <h4>Provincia {{prov_ent}}</h4>
-          <canvas id="myChart" width="900" height="800"></canvas>
-          <button onclick="toggleDescription(this, 'desc1')">Descripción</button>
-          <div id="desc1" class="chart-description" style="display: none;">
-            <!-- Aquí irá la descripción que quieres mostrar -->
-            <p>Este gráfico representa el total del presupuesto por cada Grupo de procesos de compra</p>
+    </div>
+    <div class="translation-box">
+      <h2>Sube un documento CSV</h2>
+      <form method="POST" enctype="multipart/form-data" class="mi-formulario">
+        {% csrf_token %}
+        {{form | crispy}}
+        <button type="submit" class="login-button">Iniciar</button>
+      </form>
+    </div>
+    
+    <div class="charts-container">
+      <div class="chart2" id="chart1Container">
+        <h2>Presupuesto Total por Grupos</h2>
+        <h4>Provincia {{prov_ent}}</h4>
+        <canvas id="myChart" width="900" height="800"></canvas>
+        <button onclick="toggleDescription(this, 'desc1')">Descripción</button>
+        <div id="desc1" class="chart-description" style="display: none;">
+          <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Este gráfico representa el total del presupuesto por cada grupo o cluster que se haya definido al momento de realizar el agrupamiento. Este gráfico nos ayudará a definir cúanto se ha presupuestado por cada grupo generado.</p>
+            <p>De igual manera si aplicamos el filtro de Provincia, se visualizará el Presupuesto Total por cada Grupo en esa provincia en específico.</p>
             <button onclick="closeDescription('desc1')">Cerrar</button>
           </div>
         </div>
@@ -388,7 +493,8 @@
           <button onclick="toggleDescription(this, 'desc2')">Descripción</button>
           <div id="desc2" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
-            <p>Este gráfico representa el total del valor adjudicado por cada tipo de cluster</p>
+            <p>Este gráfico representa el total del valor adjudicado por cada grupo o cluster que se haya definido al momento de realizar el agrupamiento. Este gráfico nos ayudará a definir cúanto se ha gastado, del presupuesto inicial asignado, realmente por cada grupo generado.</p>
+            <p>De igual manera si aplicamos el filtro de Provincia, se visualizará el Valor Adjudicado por cada Grupo en esa provincia en específico.</p>
             <button onclick="closeDescription('desc2')">Cerrar</button>
           </div>
         </div>
@@ -399,119 +505,144 @@
           <button onclick="toggleDescription(this, 'desc3')">Descripción</button>
           <div id="desc3" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
-            <p>Este gráfico representa el total del promedio de la diferencia por cada grupo de procesos de compra, este gráfico es uno de los más importantes ya que nos indica un valor promedio que se da en cada grupo, esto permite identificar qué tipos de contratación y en qué provincias se hay más diferencia entre el presupuesto y el valor que se adjudica</p>
-
+            <p>Este grafico es el resulato de haber realizado un cálculo entre el presupuesto y el valor adjudicado. El resultado de la diferencia entre el presupuesto y el valor adjudicado de cada proceso de compra, calculamos su promedio por cada cluster o grupo y lo presentamos en esta gráfica. Esta gráfica nos ayudará a determinar en qué grupo es donde más existe diferencia entre el valor inicial presupuestado, y el valor que se terminó pagando por ese proceso de compra.</p>
+            <p>De igual manera si aplicamos el filtro de Provincia, se visualizará la Diferencia cada Grupo en esa provincia en específico.</p>
             <button onclick="closeDescription('desc3')">Cerrar</button>
           </div>
         </div>
       </div>
       <div class="charts-container2">
         <div class="chart2" id="chart4Container">
-          <h2>Diferencia por Tipo de Contratación Grupo 1</h2>
+          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Grupo 1</h2>
           <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart4" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc4')">Descripción</button>
           <div id="desc4" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Las gráficas se generan dependiendo de cúantos grupos o clusters hayamos escogido inicialmente, si se realizó el agrupamiento con 2 clusters, se generarán unicamente dos gráficos.</p>
+            <p>Estas gráficas indican la diferencia que hay en cada tipo de contratación que se obtenga del archivo CSV, si se aplicó el filtro de Nombre de Provincia, se visualizará unicamente la diferencia que hay en cada tipo de contratación para esa provincia en específico.</p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
             <button onclick="closeDescription('desc4')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart5Container">
-          <h2>Diferencia por Tipo de Contratación Grupo 2</h2>
+          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Grupo 2</h2>
           <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart5" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc5')">Descripción</button>
           <div id="desc5" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Las gráficas se generan dependiendo de cúantos grupos o clusters hayamos escogido inicialmente, si se realizó el agrupamiento con 2 clusters, se generarán unicamente dos gráficos.</p>
+            <p>Estas gráficas indican la diferencia que hay en cada tipo de contratación que se obtenga del archivo CSV, si se aplicó el filtro de Nombre de Provincia, se visualizará unicamente la diferencia que hay en cada tipo de contratación para esa provincia en específico.</p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
             <button onclick="closeDescription('desc5')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart6Container">
-          <h2>Diferencia por Tipo de Contratación Grupo 3</h2>
+          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Grupo 3</h2>
           <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart6" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc6')">Descripción</button>
           <div id="desc6" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Las gráficas se generan dependiendo de cúantos grupos o clusters hayamos escogido inicialmente, si se realizó el agrupamiento con 2 clusters, se generarán unicamente dos gráficos.</p>
+            <p>Estas gráficas indican la diferencia que hay en cada tipo de contratación que se obtenga del archivo CSV, si se aplicó el filtro de Nombre de Provincia, se visualizará unicamente la diferencia que hay en cada tipo de contratación para esa provincia en específico.</p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
             <button onclick="closeDescription('desc6')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart10Container">
-          <h2>Diferencia por Tipo de Contratación Grupo 4</h2>
+          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Grupo 4</h2>
           <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart10" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc10')">Descripción</button>
           <div id="desc10" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Las gráficas se generan dependiendo de cúantos grupos o clusters hayamos escogido inicialmente, si se realizó el agrupamiento con 2 clusters, se generarán unicamente dos gráficos.</p>
+            <p>Estas gráficas indican la diferencia que hay en cada tipo de contratación que se obtenga del archivo CSV, si se aplicó el filtro de Nombre de Provincia, se visualizará unicamente la diferencia que hay en cada tipo de contratación para esa provincia en específico.</p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
             <button onclick="closeDescription('desc10')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart11Container">
-          <h2>Diferencia por Tipo de Contratación Grupo 5</h2>
+          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Grupo 5</h2>
           <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart11" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc11')">Descripción</button>
           <div id="desc11" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Las gráficas se generan dependiendo de cúantos grupos o clusters hayamos escogido inicialmente, si se realizó el agrupamiento con 2 clusters, se generarán unicamente dos gráficos.</p>
+            <p>Estas gráficas indican la diferencia que hay en cada tipo de contratación que se obtenga del archivo CSV, si se aplicó el filtro de Nombre de Provincia, se visualizará unicamente la diferencia que hay en cada tipo de contratación para esa provincia en específico.</p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada tipo de contratación</p>
             <button onclick="closeDescription('desc11')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart7Container">
-          <h2>Diferencias en el Grupo 1</h2>
+          <h2>Diferencias por Provincia</h2>
+          <h2>Grupo 1</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart7" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc7')">Descripción</button>
           <div id="desc7" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Estas gráficcas indican la diferencia que existe en cada provincia por cada grupo o cluster, si se aplicó el filtro de Tipo de Contratación, se visualizará unicamente la diferencia que hay en cada provincia para ese tipo de contratación en específico. </p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
             <button onclick="closeDescription('desc7')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart8Container">
-          <h2>Diferencias en el Grupo 2</h2>
+          <h2>Diferencias por Provincias</h2>
+          <h2>Grupo 2</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart8" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc8')">Descripción</button>
           <div id="desc8" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Estas gráficcas indican la diferencia que existe en cada provincia por cada grupo o cluster, si se aplicó el filtro de Tipo de Contratación, se visualizará unicamente la diferencia que hay en cada provincia para ese tipo de contratación en específico. </p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
             <button onclick="closeDescription('desc8')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart9Container">
-          <h2>Diferencias en el Grupo 3</h2>
+          <h2>Diferencias por Provincias</h2>
+          <h2>Grupo 3</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart9" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc9')">Descripción</button>
           <div id="desc9" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Estas gráficcas indican la diferencia que existe en cada provincia por cada grupo o cluster, si se aplicó el filtro de Tipo de Contratación, se visualizará unicamente la diferencia que hay en cada provincia para ese tipo de contratación en específico. </p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
             <button onclick="closeDescription('desc9')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart12Container">
-          <h2>Diferencias en el Grupo 4</h2>
+          <h2>Diferencias por Provincias</h2>
+          <h2>Grupo 4</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart12" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc12')">Descripción</button>
           <div id="desc12" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Estas gráficcas indican la diferencia que existe en cada provincia por cada grupo o cluster, si se aplicó el filtro de Tipo de Contratación, se visualizará unicamente la diferencia que hay en cada provincia para ese tipo de contratación en específico. </p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
             <button onclick="closeDescription('desc12')">Cerrar</button>
           </div>
         </div>
         <div class="chart2" id="chart13Container">
-          <h2>Diferencias en el Grupo 5</h2>
+          <h2>Diferencias por Provincias</h2>
+          <h2>Grupo 5</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart13" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc13')">Descripción</button>
           <div id="desc13" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
+            <p>Estas gráficcas indican la diferencia que existe en cada provincia por cada grupo o cluster, si se aplicó el filtro de Tipo de Contratación, se visualizará unicamente la diferencia que hay en cada provincia para ese tipo de contratación en específico. </p>
             <p>Este gráfico indica cuánto es el promedio de la diferencia que existe entre el presupuesto y el valor adjudicado por cada provincia</p>
             <button onclick="closeDescription('desc13')">Cerrar</button>
           </div>
