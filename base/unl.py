@@ -18,8 +18,8 @@ class TestUnl():
   def __init__(self):
     self.options = webdriver.ChromeOptions()
     '''self.options.add_argument("--headless=new")'''
-    self.options.add_experimental_option("detach", True)
-    self.driver = webdriver.Chrome(options=self.options)
+    #self.options.add_experimental_option("detach", True)
+    self.driver = webdriver.Chrome()
     self.vars = {}
 
   def buscar_y_clicar(self, texto, tags):
