@@ -1,5 +1,5 @@
 from django import forms
-from base.models import Document, DocumentPrediccion
+from base.models import Document, DocumentPrediccion, WebScrapping
 
 
 class DocumentForm(forms.ModelForm):
@@ -32,3 +32,10 @@ class DocumentPrediccionForm(forms.ModelForm):
             'document': forms.FileInput(attrs={'class': 'form-control'}),
             'num_clusters': forms.Select(attrs={'class': 'form-control'}),
         }
+
+class WebScrappingForm(forms.ModelForm):
+
+    class Meta:
+        model = WebScrapping
+        fields = ("url","year","month")
+        labels = labels={"url": "Ingrese una URL","year": "Escoja el año", "month": "Escoja el mes"}

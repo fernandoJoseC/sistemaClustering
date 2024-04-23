@@ -10108,6 +10108,30 @@ NUM_CLUSTERS = [
     (5, '5'),
     ]
 
+YEARS = [
+    ('2017', '2017'),
+    ('2018', '2018'),
+    ('2019', '2019'),
+    ('2020', '2020'),
+    ('2021', '2021'),
+    ('2022', '2022'),
+    ('2023', '2023'),
+    ('2024', '2024'),
+]
+MONTHS = [
+    ('Enero', 'Enero'),
+    ('Febrero', 'Febrero'),
+    ('Marzo', 'Marzo'),
+    ('Abril', 'Abril'),
+    ('Mayo', 'Mayo'),
+    ('Junio', 'Junio'),
+    ('Julio', 'Julio'),
+    ('Agosto', 'Agosto'),
+    ('Septiembre', 'Septiembre'),
+    ('Octubre', 'Octubre'),
+    ('Noviembre', 'Noviembre'),
+    ('Diciembre', 'Diciembre'),
+]
 csv_validator = FileExtensionValidator(allowed_extensions=['csv'], message="Solo se permiten archivos CSV.")
 
 # Create your models here.
@@ -10117,7 +10141,12 @@ class Document(models.Model):
     prov_ent = models.CharField(max_length=255, choices=PROV_ENT_CHOICES, default="TODOS")
     nom_ent = models.CharField(max_length=255, choices=NOM_ENT_CHOICES, default="TODOS")
     num_clusters = models.IntegerField(default=3, choices=NUM_CLUSTERS)
-    
+
 class DocumentPrediccion(models.Model):
     document = models.FileField(upload_to='docs/', validators=[csv_validator], )
     num_clusters = models.IntegerField(default=3, choices=NUM_CLUSTERS)
+
+class WebScrapping(models.Model):
+    url = models.URLField()
+    year = models.CharField(max_length=10, choices=YEARS, default="2020")
+    month = models.CharField(max_length=10, choices=MONTHS, default="ENERO")

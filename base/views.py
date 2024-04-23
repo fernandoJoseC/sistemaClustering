@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from base.forms import DocumentForm, DocumentPrediccionForm
+from base.forms import DocumentForm, DocumentPrediccionForm, WebScrappingForm
 import pandas as pd
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
@@ -11,28 +11,15 @@ from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import silhouette_score
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-
 import os
 from pathlib import Path
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from .selenium import SeleniumHandler
+from .scrappingv2 import TestP1
+from .busquedadinamica import TestDinamico
+from .unl import TestUnl
 
-
-'''class DataProcessor:
-    def __init__(self, **kwargs):
-        """Inicializa la instancia con configuraciones y carga el modelo y otros recursos."""
-        super().__init__(**kwargs)  # Llamar al constructor de la clase base si es necesario
-        self.model_path = Path(__file__).parents[1] / 'media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5'
-        
-        # Cargar el modelo de manera segura
-        if self.model_path.exists():
-            self.model = load_model(self.model_path)
-        else:
-            raise FileNotFoundError(f"No se pudo encontrar el modelo en {self.model_path}")
-
-
-        # Método personalizado para cargar datos o configuraciones adicionales
-    
-  '''  # Métodos adicionales para procesar datos, hacer predicciones, etc., pueden ir aquí
+ # Métodos adicionales para procesar datos, hacer predicciones, etc., pueden ir aquí
 
 def load_data(file_path):
   datos = pd.read_csv(file_path).rename(columns={
@@ -60,17 +47,6 @@ def cluster_data(data, n_clusters):
   return clusters
 
 def calculate_totals_by_cluster(data, group_by_column, *sum_columns):
-    """
-    Calcula los totales de las columnas especificadas, agrupados por una columna dada.
-
-    Args:
-    data (pd.DataFrame): DataFrame sobre el cual realizar los cálculos.
-    group_by_column (str): Columna por la que se agrupará.
-    sum_columns (list of str): Columnas de las cuales calcular el total.
-
-    Returns:
-    dict: Un diccionario con DataFrames para cada columna sumada.
-    """
     result = {}
     for column in sum_columns:
         grouped_data = data.groupby(group_by_column)[column].sum().reset_index()
@@ -94,10 +70,6 @@ def calculate_average_difference_by_province(data, num, group_by_column='cluster
 def data_to_list(data,group_by_column):
     lista = data[group_by_column].tolist()
     return lista
-    
-    
-
-
 
 provincias = {
                 "AZUAY": {"latitud": -2.898611, "longitud": -78.477778},
@@ -149,23 +121,6 @@ def home(request):
 
             # Aquí lees el contenido del archivo CSV
             file_path = fs.path(name)
-            '''datos0 = (pd.read_csv(file_path).rename(columns={
-                            "Código Proceso":"codProceso",
-                            "Descripción compra":"desCompra",
-                            "Fecha Publicación":"fechaPub",
-                            "Fecha Adjudicación":"fechaAdj",
-                            "CPC N9":"codCPC",
-                            "Descripción CPC N9":"descCPC",
-                            "Tipo Contratación":"tipoCont",
-                            "Ruc Entidad":"rucEnt",
-                            "Nombre Entidad":"nomEnt",
-                            "Provincia Entidad":"provEnt",
-                            "Cantón Entidad":"cantEnt",
-                            "Ruc Proveedor":"rucProv",
-                            "Nombre Proveedor":"nomProv",
-                            "Presupuesto":"presupuesto",
-                            "Valor adjudicado":"valAdj"
-                        }))'''
             datos0 = load_data(file_path)
 
             #AGREGAMOS LO DEL COLAB
@@ -224,15 +179,10 @@ def home(request):
             values = datos_clustering['grupo_valAdj']
             datos_clustering['grupo_valAdj_encoder'] = encoder.fit_transform(values)
 
-            #datos_grupo_valAdj_unique = datos_clustering[['grupo_valAdj', 'grupo_valAdj_encoder']].drop_duplicates().sort_values('grupo_valAdj_encoder')
-
             datos_clustering = datos_clustering.drop(['valAdj', 'presupuesto'], axis=1)
-            #datos_clustering
 
             datos_clustering = datos_clustering.drop(['grupo_valAdj'], axis=1)
-            #datos_clustering
 
-            #from scikit-learn.cluster import KMeans
 
             
             # Aplicar Mini-Batch K-means
@@ -260,7 +210,6 @@ def home(request):
         
             # Convertir el DataFrame a JSON
 
-            #total_presupuesto_por_cluster = datos.groupby('cluster')['presupuesto'].sum().reset_index()
             if prov_ent == "TODOS":
                 data_filtrada = datos
             else:
@@ -271,10 +220,8 @@ def home(request):
 
             total_presupuesto_por_cluster = totals['presupuesto']
             total_valAdj_por_cluster = totals['valAdj']
-            '''total_presupuesto_por_cluster = data_filtrada.groupby('cluster')['presupuesto'].sum().reset_index()
-            total_valAdj_por_cluster = data_filtrada.groupby('cluster')['valAdj'].sum().reset_index()'''
-            total_diferencia_por_cluster = data_filtrada.groupby('cluster')['diferencia'].mean().reset_index()
 
+            total_diferencia_por_cluster = data_filtrada.groupby('cluster')['diferencia'].mean().reset_index()
             total_promedio_diferencia_tipo_cero = datos.groupby('tipoCont')['diferencia'].mean().reset_index()
 
             # Convertir los resultados en listas para facilitar su uso posterior
@@ -284,14 +231,8 @@ def home(request):
             totales_presupuesto_cluster = data_to_list(total_presupuesto_por_cluster, 'presupuesto')
             totales_valAdj_cluster = data_to_list(total_valAdj_por_cluster, 'valAdj')
             totales_diferencia_cluster = data_to_list(total_diferencia_por_cluster, 'diferencia')
-            '''clusters = total_presupuesto_por_cluster['cluster'].tolist()
-            totales_presupuesto_cluster = total_presupuesto_por_cluster['presupuesto'].tolist()
-            totales_valAdj_cluster = total_valAdj_por_cluster['valAdj'].tolist()
-            totales_diferencia_cluster = total_diferencia_por_cluster['diferencia'].tolist()'''
 
-            # Ejemplo de cómo usar esta función
-            # Suponiendo que `data_filtrada` es tu DataFrame ya filtrado:
-            #average_differences = calculate_average_difference_by_contract(data_filtrada, 0)
+
             total_promedio_diferencia_tipo_cero = calculate_average_difference_by_contract(data_filtrada, 0)
             total_promedio_diferencia_tipo_uno = calculate_average_difference_by_contract(data_filtrada, 1)
             total_promedio_diferencia_tipo_dos = calculate_average_difference_by_contract(data_filtrada, 2)
@@ -300,12 +241,6 @@ def home(request):
             
 
             # Calculate the average difference for each type of contract
-            
-            '''total_promedio_diferencia_tipo_cero = data_filtrada[data_filtrada['cluster']==0].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_uno = data_filtrada[data_filtrada['cluster']==1].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_dos = data_filtrada[data_filtrada['cluster']==2].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_tres = data_filtrada[data_filtrada['cluster']==3].groupby('tipoCont')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_tipo_cuatro = data_filtrada[data_filtrada['cluster']==4].groupby('tipoCont')['diferencia'].mean().reset_index()'''
 
             if tipo_cont == "Todos":
                 data_filtrada_tipo = datos
@@ -317,19 +252,11 @@ def home(request):
             total_promedio_diferencia_provincia_dos = calculate_average_difference_by_province(data_filtrada_tipo, 2)
             total_promedio_diferencia_provincia_tres = calculate_average_difference_by_province(data_filtrada_tipo, 3)
             total_promedio_diferencia_provincia_cuatro = calculate_average_difference_by_province(data_filtrada_tipo, 4)
-
-            '''total_promedio_diferencia_provincia_cero = data_filtrada_tipo[data_filtrada_tipo['cluster']==0].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_uno = data_filtrada_tipo[data_filtrada_tipo['cluster']==1].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_dos = data_filtrada_tipo[data_filtrada_tipo['cluster']==2].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_tres = data_filtrada_tipo[data_filtrada_tipo['cluster']==3].groupby('provEnt')['diferencia'].mean().reset_index()
-            total_promedio_diferencia_provincia_cuatro = data_filtrada_tipo[data_filtrada_tipo['cluster']==4].groupby('provEnt')['diferencia'].mean().reset_index()'''
            
 
             #Filtro por el tipo de contratacion el promedio de la diferencia
             tipos_contrato_cero = data_to_list(total_promedio_diferencia_tipo_cero, 'tipoCont')
-            #tipos_contrato_cero = total_promedio_diferencia_tipo_cero['tipoCont'].tolist()
             totales_promedio_diferencia_tipo_cero = data_to_list(total_promedio_diferencia_tipo_cero, 'diferencia')
-            #totales_promedio_diferencia_tipo_cero = total_promedio_diferencia_tipo_cero['diferencia'].tolist()
 
             tipos_contrato_uno = data_to_list(total_promedio_diferencia_tipo_uno, 'tipoCont')
             totales_promedio_diferencia_tipo_uno = data_to_list(total_promedio_diferencia_tipo_uno, 'diferencia')
@@ -453,13 +380,47 @@ def home(request):
     context = {'form': DocumentForm()}
     return render(request, "home.html", context)
 
+
+
+def webScrappingView(request):
+    if request.method == "POST":
+        form = WebScrappingForm(request.POST)
+        if form.is_valid():
+
+            url = str(request.POST.get('url'))
+            year = str(request.POST.get('year'))
+            month = str(request.POST.get('month'))
+            
+            selenium_handler = TestUnl()
+            #selenium_handler = TestP1()
+            #selenium_handler = TestDinamico()
+            selenium_handler.test_unl(url, year, month)
+            #selenium_handler.test_busqueda_dinamica(url)
+            #title = str(selenium_handler.)
+
+
+            context = {
+                "form": form, 
+                'url': url,
+                #'title': title,
+                }
+            return render(request, "webscrapping.html", context)
+        else:
+            #messages.error(request, 'Error en el formulario.')
+            context = {'form': form}
+            return render(request, "webscrapping.html", context)
+    
+    context = {'form': WebScrappingForm()}
+    return render(request, "webscrapping.html", context)
+
 def inicioView(request):
     return render(request, "inicio.html", {})
+
 def introduccionView(request):
     return render(request, "introduccion.html", {})
 
 def prediccionView(request):
-    import pandas as pd
+    
     if request.method == "POST":
         form = DocumentPrediccionForm(request.POST, request.FILES)
         if form.is_valid():
@@ -854,9 +815,6 @@ def prediccionView(request):
 
             datos['grupo_mapeo'] = datos['valAdj_grupo_encoder'].map(map_valAdj_grupo_unique)
             datos'''
-
-
-
             
             
             context = {
@@ -892,11 +850,3 @@ def authView (request):
 def upload_form(request):
  context = {'form':DocumentForm(),}
  return render(request, "home.html", context)
-
-# Ejemplo de uso
-'''if __name__ == "__main__":
-    try:
-        processor = DataProcessor()
-        # Aquí se podrían agregar más llamadas a métodos, como processor.process_data()
-    except Exception as e:
-        print(f"Error al inicializar DataProcessor: {e}")'''
