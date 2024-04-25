@@ -10,69 +10,110 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
 
 class TestUnl():
   
-  
 
   def __init__(self):
-    self.options = webdriver.ChromeOptions()
-    '''self.options.add_argument("--headless=new")'''
     #self.options.add_experimental_option("detach", True)
-    self.driver = webdriver.Chrome()
+    self.options = webdriver.ChromeOptions()
+    self.options.add_experimental_option('excludeSwitches', ['disable-popup-blocking'])
+    #self.options.enable_downloads = True
+    self.driver = webdriver.Chrome(options=self.options)
+    self.wait = WebDriverWait(self.driver, 10)
     self.vars = {}
-
-  def buscar_y_clicar(self, texto, tags):
-    """Busca un texto en una lista de tags y hace clic en el primero que encuentra."""
-    for tag in tags:
-        try:
-            element = self.driver.find_element(By.LINK_TEXT, f"//{tag}[contains(text(), '{texto}')]")
-            element.click()
-            return
-        except NoSuchElementException:
-            continue
-    print(f"No se encontró el texto '{texto}' en los tags proporcionados.")
-  
-  def test_busqueda_dinamica(self, url):
-    #url = "https://www.unl.edu.ec/"  # Define la URL aquí o pasa como parámetro de clase
-    busquedas = {
-        "Transparencia": ["h5", "h4", "span", "a"],
-        "2020": ["h5", "h4", "span", "a"],
-        "Enero": ["h5", "h4", "span", "a"],
-        #"Rendición de cuentas": ["h5", "h4", "span", "a"],
-        "Presupuesto": ["h5", "h4", "span", "a"]
-    }  # Define las búsquedas aquí o como un parámetro de clase
-    self.driver.get(url)
-    for texto, tags in busquedas.items():
-        self.buscar_y_clicar(texto, tags)
 
   
   def teardown_method(self):
     self.driver.quit()
 
-  def wait_for_window(self, timeout = 2):
-    time.sleep(round(timeout / 2000))
+  def wait_for_window(self, timeout = 1):
+    time.sleep(round(timeout / 1000))
     wh_now = self.driver.window_handles
     wh_then = self.vars["window_handles"]
     if len(wh_now) > len(wh_then):
       return set(wh_now).difference(set(wh_then)).pop()
     
   def test_unl(self, url, year, mes):
+    
     # Test name: unl
     # Step # | name | target | value
+
     # 1 | open | https://www.unl.edu.ec/ | 
     self.driver.get(url)
-    # 2 | setWindowSize | 1512x944 | 
-    self.driver.set_window_size(1512, 944)
+    print(f'Url que subo {self.driver.current_url}')
+
+    try:
+       self.driver.find_element(By.PARTIAL_LINK_TEXT, 'X').click()
+    except:
+        try:
+          self.driver.find_element(By.XPATH, f"//a[contains(text(), 'X')]").click()
+        except:
+           pass
+
+    self.original_window = self.driver.current_window_handle
     # 3 | click | linkText=Transparencia | 
-    self.driver.find_element(By.LINK_TEXT, "Transparencia").click()
+    try:
+       self.driver.find_element(By.PARTIAL_LINK_TEXT, 'Transparencia').click()
+    except:
+       self.driver.find_element(By.XPATH, f"//a[contains(text(), 'Transparencia')]").click()
+
+    print("Luego de dar click en transparecnia",self.original_window)
+    for self.window_handle in self.driver.window_handles:
+        if self.window_handle != self.original_window:
+            self.driver.switch_to.window(self.window_handle)
+            break
+
     # 4 | click | linkText=2020 | 
-    self.driver.find_element(By.LINK_TEXT, year).click()
+    #self.original_window = self.driver.current_window_handle
+    try:
+        self.driver.find_element(By.PARTIAL_LINK_TEXT, year).click()
+    except:
+        self.driver.find_element(By.XPATH, f"//a[contains(text(), '{year}')]").click()
+        
+    self.original_window = self.driver.current_window_handle
+    print("Luego de dar click en año",self.original_window)
+    for self.window_handle in self.driver.window_handles:
+        if self.window_handle != self.original_window:
+            self.driver.switch_to.window(self.window_handle)
+            break
+    
+    
     # 5 | click | css=#ui-id-3 > .field-content | 
-    #self.driver.find_element(By.CSS_SELECTOR, "#ui-id-3 > .field-content").click()
-    self.driver.find_element(By.XPATH, f"//span[@class='field-content' and contains(text(), '{mes}')]").click()
+    #self.original_window = self.driver.current_window_handle
+    try:
+       self.driver.find_element(By.PARTIAL_LINK_TEXT, mes).click()
+    except:
+       self.driver.find_element(By.XPATH, f"//span[contains(text(), '{mes}')]").click()
+    
+
     # 6 | click | linkText=Literal g.- Presupuesto de la Institución | 
-    self.vars["window_handles"] = self.driver.window_handles
-    self.driver.find_element(By.LINK_TEXT, "Literal g.- Presupuesto de la Institución").click()
-    self.vars["win624"] = self.wait_for_window(2000)
+    self.original_window = self.driver.current_window_handle
+    print("Luego de dar click en mes", self.original_window)
+    for self.window_handle in self.driver.window_handles:
+        if self.window_handle != self.original_window:
+            self.driver.switch_to.window(self.window_handle)
+            break
+    
+    self.original_window = self.driver.current_window_handle
+    try:
+        self.driver.find_element(By.PARTIAL_LINK_TEXT, 'Presupuesto').click()
+    except:
+        self.driver.find_element(By.XPATH, f"//a[contains(text(),'Presupuesto')]").click()
+
+    # Wait for the new window or tab
+    print(self.original_window)
+    for self.window_handle in self.driver.window_handles:
+        if self.window_handle != self.original_window:
+            self.driver.switch_to.window(self.window_handle)
+            break
+    
+
+    #self.original_window = self.driver.current_window_handle
+    print(self.original_window)
+    print(self.driver.current_url)
+    link = self.driver.current_url
+    return link
+    #self.vars["win624"] = self.wait_for_window(2000)
   

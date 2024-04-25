@@ -122,6 +122,7 @@
       
       button:hover {
         background-color: #EBA902; /* Color de fondo al pasar el mouse */
+        color: #9c1944;
       }
       .footer {
         background-color: #9c1944; /* Color de fondo */
@@ -197,6 +198,10 @@
       .translation-box h2{
         text-align: center;
       }
+      a {
+        color: #EBA902; /* Cambia el color del enlace */
+        text-decoration: none; /* Elimina el subrayado */
+      }
       </style>
       
     </style>
@@ -218,8 +223,9 @@
           <button type="submit" class="login-button">Iniciar</button>
         </form>
       </div>
-      <h2>{{url}}</h2>
-      <h2>{{title}}</h2>
+      <button class="login-button">
+        <a href="{{download}}">Descargar Presupuesto</a>
+      </button>
     </div>
   </body>
   <footer class="footer">

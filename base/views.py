@@ -392,17 +392,14 @@ def webScrappingView(request):
             month = str(request.POST.get('month'))
             
             selenium_handler = TestUnl()
-            #selenium_handler = TestP1()
-            #selenium_handler = TestDinamico()
-            selenium_handler.test_unl(url, year, month)
-            #selenium_handler.test_busqueda_dinamica(url)
-            #title = str(selenium_handler.)
+            
+            download = str(selenium_handler.test_unl(url, year, month))
 
 
             context = {
                 "form": form, 
                 'url': url,
-                #'title': title,
+                'download': download,
                 }
             return render(request, "webscrapping.html", context)
         else:
