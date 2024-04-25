@@ -25,10 +25,11 @@ class TestUnl():
 
     self.options.binary_location = self.google_chrome_bin
     self.options.add_extension(self.chrome_driver_path)
-    self.options.add_argument("--headless=new")
+    self.options.add_argument("--no-sandbox")
+    self.options.add_argument("--headless")
 
     #self.options.enable_downloads = True
-    self.driver = webdriver.Chrome()
+    self.driver = webdriver.Chrome(options=self.options)
 
     #self.driver = webdriver.Chrome(options=self.options)
     self.wait = WebDriverWait(self.driver, 10)
