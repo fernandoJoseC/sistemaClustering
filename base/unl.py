@@ -28,8 +28,8 @@ class TestUnl():
     self.options.add_argument("--headless=new")
 
     #self.options.enable_downloads = True
-    self.driver = webdriver.Chrome(options=self.options, executable_path=self.chrome_driver_path)
-    
+    self.driver = webdriver.Chrome(options=self.options)
+
     #self.driver = webdriver.Chrome(options=self.options)
     self.wait = WebDriverWait(self.driver, 10)
     self.vars = {}
