@@ -20,6 +20,33 @@ from .unl import TestUnl
 from .cluster import Clustering
 from sklearn.preprocessing import LabelEncoder
 
+provincias = {
+                "AZUAY": {"latitud": -2.898611, "longitud": -78.477778},
+                "BOLIVAR": {"latitud": -1.749722, "longitud": -78.166667},
+                "CAÑAR": {"latitud": -2.833333, "longitud": -78.666667},
+                "CARCHI": {"latitud": 0.783333, "longitud": -78.166667},
+                "CHIMBORAZO": {"latitud": -1.700833, "longitud": -78.666667},
+                "COTOPAXI": {"latitud": -0.683333, "longitud": -78.416667},
+                "EL ORO": {"latitud": -3.450000, "longitud": -79.916667},
+                "ESMERALDAS": {"latitud": 0.966667, "longitud": -79.666667},
+                "GALAPAGOS": {"latitud": -0.633333, "longitud": -90.333333},
+                "GUAYAS": {"latitud": -2.200000, "longitud": -79.883333},
+                "IMBABURA": {"latitud": 0.416667, "longitud": -78.416667},
+                "LOJA": {"latitud": -4.000000, "longitud": -79.216667},
+                "LOS RIOS": {"latitud": -1.500000, "longitud": -79.166667},
+                "MANABI": {"latitud": -0.500000, "longitud": -80.000000},
+                "MORONA SANTIAGO": {"latitud": -2.833333, "longitud": -77.833333},
+                "NAPO": {"latitud": -1.000000, "longitud": -77.833333},
+                "ORELLANA": {"latitud": -0.583333, "longitud": -76.833333},
+                "PASTAZA": {"latitud": -1.416667, "longitud": -77.833333},
+                "PICHINCHA": {"latitud": -0.250000, "longitud": -78.500000},
+                "SANTA ELENA": {"latitud": -2.250000, "longitud": -80.833333},
+                "SANTO DOMINGO DE LOS TSACHILAS": {"latitud": -0.250000, "longitud": -79.333333},
+                "SUCUMBIOS": {"latitud": -0.500000, "longitud": -76.833333},
+                "TUNGURAHUA": {"latitud": -1.416667, "longitud": -78.250000},
+                "ZAMORA CHINCHIPE": {"latitud": -4.083333, "longitud": -78.916667},
+            }
+
 @login_required
 def home(request):
     model_cluster = Clustering()
