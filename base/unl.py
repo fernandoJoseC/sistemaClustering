@@ -11,16 +11,26 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 class TestUnl():
   
 
   def __init__(self):
     #self.options.add_experimental_option("detach", True)
+    self.google_chrome_bin = os.environ.get("GOOGLE_CHROME_BIN", "chromedriver")
+    self.chrome_driver_path = os.environ.get("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
+
     self.options = webdriver.ChromeOptions()
-    self.options.add_experimental_option('excludeSwitches', ['disable-popup-blocking'])
+
+    self.options.binary_location = self.google_chrome_bin
+    self.options.add_extension(self.chrome_driver_path)
+    self.options.add_argument("--headless=new")
+
     #self.options.enable_downloads = True
-    self.driver = webdriver.Chrome(options=self.options)
+    self.driver = webdriver.Chrome(options=self.options, executable_path=self.chrome_driver_path)
+    
+    #self.driver = webdriver.Chrome(options=self.options)
     self.wait = WebDriverWait(self.driver, 10)
     self.vars = {}
 
