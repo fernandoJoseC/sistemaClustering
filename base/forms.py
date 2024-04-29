@@ -6,17 +6,19 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
-        fields = ("document","prov_ent", "tipo_cont", "num_clusters",)
+        fields = ("document","prov_ent", "tipo_cont", "nom_ent", "num_clusters",)
         labels = labels={
 			'document':'',
             'prov_ent':'Nombre de la provincia',
             'tipo_cont':'Tipo de contratación',
+            'nom_ent': 'Nombre de la entidad',
             'num_clusters':'Escoja el número de clusters entre 2 hasta 5',
 		}
         widgets = {
             'document': forms.FileInput(attrs={'class': 'form-control'}),
             'prov_ent': forms.Select(attrs={'class': 'form-control'}),
             'tipo_cont': forms.Select(attrs={'class': 'form-control'}),
+            'nom_ent': forms.Select(attrs={'class': 'form-control'}),
             'num_clusters': forms.Select(attrs={'class': 'form-control'}),
         }
 class DocumentPrediccionForm(forms.ModelForm):

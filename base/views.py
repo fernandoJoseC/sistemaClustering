@@ -154,8 +154,9 @@ def home(request):
 
             # Filtrando los datos para la Provincia de Loja
             data_filtrada_provincias = pd.DataFrame(datos[datos['provEnt'] == prov_ent])
-            data_filtrada_tipo_cont = pd.DataFrame(datos[datos['tipoCont'] == tipo_cont])
-            #data_filtrada_nom_ent = pd.DataFrame(datos[datos['nomEnt']== nom_ent])
+            data_filtrada_nom_ent = pd.DataFrame(datos[datos['nomEnt']== nom_ent])
+            data_filtrada_tipo_cont = pd.DataFrame(data_filtrada_nom_ent[data_filtrada_nom_ent['tipoCont'] == tipo_cont])
+            #data_filtrada_tipo_cont = pd.DataFrame(datos[datos['tipoCont'] == tipo_cont])
             
         
             # Convertir el DataFrame a JSON
@@ -318,6 +319,7 @@ def home(request):
                 'prov_ent': prov_ent,
                 'tipo_cont': tipo_cont,
                 'num_clusters': num_clusters,
+                'nom_ent': nom_ent,
                 }
             return render(request, "home.html", context)
             

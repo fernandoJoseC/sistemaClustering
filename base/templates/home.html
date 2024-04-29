@@ -500,13 +500,14 @@
           </div>
         </div>
         <div class="chart2" id="chart3Container">
-          <h2>Diferencia por Grupos</h2>
+          <h2>Ahorro del presupuesto por Grupos</h2>
           <h4>Provincia {{prov_ent}}</h4>
           <canvas id="myChart3" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc3')">Descripción</button>
           <div id="desc3" class="chart-description" style="display: none;">
             <!-- Aquí irá la descripción que quieres mostrar -->
-            <p>Este grafico es el resulato de haber realizado un cálculo entre el presupuesto y el valor adjudicado. El resultado de la diferencia entre el presupuesto y el valor adjudicado de cada proceso de compra, calculamos su promedio por cada cluster o grupo y lo presentamos en esta gráfica. Esta gráfica nos ayudará a determinar en qué grupo es donde más existe diferencia entre el valor inicial presupuestado, y el valor que se terminó pagando por ese proceso de compra.</p>
+            <p>Este grafico es el resulato de haber realizado un cálculo entre el presupuesto y el valor adjudicado. El resultado de la diferencia entre el presupuesto y el valor adjudicado de cada proceso de compra, calculamos su promedio por cada cluster o grupo y lo presentamos en esta gráfica. Esta gráfica nos ayudará a determinar en qué grupo es donde más existe diferencia entre el valor inicial presupuestado, y el valor que se terminó pagando por ese proceso de compra. </p>
+            <p>Este gráfico representa el ahorro que se tuvo por cada grupo.</p>
             <p>De igual manera si aplicamos el filtro de Provincia, se visualizará la Diferencia cada Grupo en esa provincia en específico.</p>
             <button onclick="closeDescription('desc3')">Cerrar</button>
           </div>
@@ -514,9 +515,10 @@
       </div>
       <div class="charts-container2">
         <div class="chart2" id="chart4Container">
-          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Ahorro del presupuesto por Tipo de Contratación</h2>
           <h2>Grupo 1</h2>
           <h4>Provincia {{prov_ent}}</h4>
+          <h4>Nombre de la Entidad {{nom_ent}}</h4>
           <canvas id="myChart4" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc4')">Descripción</button>
           <div id="desc4" class="chart-description" style="display: none;">
@@ -528,9 +530,10 @@
           </div>
         </div>
         <div class="chart2" id="chart5Container">
-          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Ahorro del presupuesto por Tipo de Contratación</h2>
           <h2>Grupo 2</h2>
           <h4>Provincia {{prov_ent}}</h4>
+          <h4>Nombre de la Entidad {{nom_ent}}</h4>
           <canvas id="myChart5" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc5')">Descripción</button>
           <div id="desc5" class="chart-description" style="display: none;">
@@ -542,9 +545,10 @@
           </div>
         </div>
         <div class="chart2" id="chart6Container">
-          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Ahorro del presupuesto por Tipo de Contratación</h2>
           <h2>Grupo 3</h2>
           <h4>Provincia {{prov_ent}}</h4>
+          <h4>Nombre de la Entidad {{nom_ent}}</h4>
           <canvas id="myChart6" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc6')">Descripción</button>
           <div id="desc6" class="chart-description" style="display: none;">
@@ -556,9 +560,10 @@
           </div>
         </div>
         <div class="chart2" id="chart10Container">
-          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Ahorro del presupuesto por Tipo de Contratación</h2>
           <h2>Grupo 4</h2>
           <h4>Provincia {{prov_ent}}</h4>
+          <h4>Nombre de la Entidad {{nom_ent}}</h4>
           <canvas id="myChart10" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc10')">Descripción</button>
           <div id="desc10" class="chart-description" style="display: none;">
@@ -570,9 +575,10 @@
           </div>
         </div>
         <div class="chart2" id="chart11Container">
-          <h2>Diferencia por Tipo de Contratación</h2>
+          <h2>Ahorro del presupuesto por Tipo de Contratación</h2>
           <h2>Grupo 5</h2>
           <h4>Provincia {{prov_ent}}</h4>
+          <h4>Nombre de la Entidad {{nom_ent}}</h4>
           <canvas id="myChart11" width="900" height="800"></canvas>
           <button onclick="toggleDescription(this, 'desc11')">Descripción</button>
           <div id="desc11" class="chart-description" style="display: none;">
@@ -584,7 +590,7 @@
           </div>
         </div>
         <div class="chart2" id="chart7Container">
-          <h2>Diferencias por Provincia</h2>
+          <h2>Ahorro del presupuesto por Provincia</h2>
           <h2>Grupo 1</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart7" width="900" height="800"></canvas>
@@ -597,7 +603,7 @@
           </div>
         </div>
         <div class="chart2" id="chart8Container">
-          <h2>Diferencias por Provincias</h2>
+          <h2>Ahorro del presupuesto por Provincia</h2>
           <h2>Grupo 2</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart8" width="900" height="800"></canvas>
@@ -610,7 +616,7 @@
           </div>
         </div>
         <div class="chart2" id="chart9Container">
-          <h2>Diferencias por Provincias</h2>
+          <h2>Ahorro del presupuesto por Provincia</h2>
           <h2>Grupo 3</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart9" width="900" height="800"></canvas>
@@ -623,7 +629,7 @@
           </div>
         </div>
         <div class="chart2" id="chart12Container">
-          <h2>Diferencias por Provincias</h2>
+          <h2>Ahorro del presupuesto por Provincia</h2>
           <h2>Grupo 4</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart12" width="900" height="800"></canvas>
@@ -636,7 +642,7 @@
           </div>
         </div>
         <div class="chart2" id="chart13Container">
-          <h2>Diferencias por Provincias</h2>
+          <h2>Ahorro del presupuesto por Provincia</h2>
           <h2>Grupo 5</h2>
           <h4>Tipo de contratación {{tipo_cont}}</h4>
           <canvas id="myChart13" width="900" height="800"></canvas>
@@ -694,7 +700,7 @@
               labels: label,
               
               datasets: [{
-                label: 'Presupuesto por Cluster',
+                label: 'Total del Presupuesto por Grupo',
                 data: data1.map(item => item.presupuesto),
                 backgroundColor: ['rgb(156,25,68)', 'rgb(235,169,2)', 'rgb(34,34,34)'],
                 borderColor: ['rgba(156,25,68, 1)', 'rgba(235,169,2, 1)', 'rgba(34,34,34, 1)'], // Usa los datos numéricos dinámicos
@@ -724,7 +730,7 @@
               labels: label,
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Val Adj por Cluster',
+                label: 'Total del Valor Adjudicado por Grupo',
                 data: data2.map(item => item.valAdj),
                 backgroundColor: ['rgb(156,25,68)', 'rgb(235,169,2)', 'rgb(34,34,34)'],
                 borderColor: ['rgba(156,25,68, 1)', 'rgba(235,169,2, 1)', 'rgba(34,34,34, 1)'], // Usa los datos numéricos dinámicos
@@ -754,7 +760,7 @@
               labels: label,
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Diferencia por Cluster',
+                label: 'Promedio de Ahorro por Grupo',
                 data: data3.map(item => item.diferencia),
                 backgroundColor: ['rgb(156,25,68)', 'rgb(235,169,2)', 'rgb(34,34,34)'],
                 borderColor: ['rgba(156,25,68, 1)', 'rgba(235,169,2, 1)', 'rgba(34,34,34, 1)'],// Usa los datos numéricos dinámicos
@@ -783,7 +789,7 @@
               labels: data4.map(item => item.tipo_contrato_cero),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 0',
+                label: 'Promedio de Ahorro por Tipo de Contratación en Cluster 0',
                 data: data4.map(item => item.promedio_diferencia_cero),
                 backgroundColor: 'rgb(156,25,68)',
                 borderColor: 'rgba(156,25,68, 1)', // Usa los datos numéricos dinámicos
@@ -811,7 +817,7 @@
               labels: data10.map(item => item.tipo_contrato_tres),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 3',
+                label: 'Promedio de Ahorro por Tipo de Contratación en Cluster 3',
                 data: data10.map(item => item.promedio_diferencia_tres),
                 backgroundColor: 'rgb(156,25,68)',
                 borderColor: 'rgba(156,25,68, 1)', // Usa los datos numéricos dinámicos
@@ -839,7 +845,7 @@
               labels: data11.map(item => item.tipo_contrato_cuatro),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 4',
+                label: 'Promedio de Ahorro por Tipo de Contratación en Cluster 4',
                 data: data11.map(item => item.promedio_diferencia_cuatro),
                 backgroundColor: 'rgb(156,25,68)',
                 borderColor: 'rgba(156,25,68, 1)', // Usa los datos numéricos dinámicos
@@ -867,7 +873,7 @@
               labels: data5.map(item => item.tipo_contrato_uno),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 1',
+                label: 'Promedio de Ahorro por Tipo de Contratación en Cluster 1',
                 data: data5.map(item => item.promedio_diferencia_uno),
                 backgroundColor: 'rgb(235,169,2)',
                 borderColor: 'rgba(235,169,2, 1)', // Usa los datos numéricos dinámicos
@@ -895,7 +901,7 @@
               labels: data6.map(item => item.tipo_contrato_dos),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Tipo de Contratación en Cluster 2',
+                label: 'Promedio de Ahorro por Tipo de Contratación en Cluster 2',
                 data: data6.map(item => item.promedio_diferencia_dos),
                 backgroundColor: 'rgb(34,34,34)',
                 borderColor: 'rgba(34,34,34, 1)', // Usa los datos numéricos dinámicos
@@ -923,7 +929,7 @@
               labels: data7.map(item => item.provincias_cero),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Provincia cluster 0',
+                label: 'Promedio del Ahorro por Provincia Cluster 0',
                 data: data7.map(item => item.promedio_diferencia_provincia_cero),
                 backgroundColor: 'rgb(156,25,68)',
                 borderColor: 'rgba(156,25,68, 1)', // Usa los datos numéricos dinámicos
@@ -951,7 +957,7 @@
               labels: data8.map(item => item.provincias_uno),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Provincia cluster 1',
+                label: 'Promedio del Ahorro por Provincia Cluster 1',
                 data: data8.map(item => item.promedio_diferencia_provincia_uno),
                 backgroundColor: 'rgb(235,169,2)',
                 borderColor: 'rgba(235,169,2, 1)', // Usa los datos numéricos dinámicos
@@ -979,7 +985,7 @@
               labels: data9.map(item => item.provincias_dos),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Provincia cluster 2',
+                label: 'Promedio del Ahorro por Provincia Cluster 2',
                 data: data9.map(item => item.promedio_diferencia_provincia_dos),
                 backgroundColor: 'rgb(34,34,34)',
                 borderColor: 'rgba(34,34,34, 1)', // Usa los datos numéricos dinámicos
@@ -1007,7 +1013,7 @@
               labels: data12.map(item => item.provincias_tres),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Provincia cluster 3',
+                label: 'Promedio del Ahorro por Provincia Cluster 3',
                 data: data12.map(item => item.promedio_diferencia_provincia_tres),
                 backgroundColor: 'rgb(34,34,34)',
                 borderColor: 'rgba(34,34,34, 1)', // Usa los datos numéricos dinámicos
@@ -1035,7 +1041,7 @@
               labels: data13.map(item => item.provincias_cuatro),
               //labels: labels, // Usa las etiquetas dinámicas
               datasets: [{
-                label: 'Promedio de la diferencia por Provincia cluster 4',
+                label: 'Promedio del Ahorro por Provincia Cluster 4',
                 data: data13.map(item => item.promedio_diferencia_provincia_cuatro),
                 backgroundColor: 'rgb(34,34,34)',
                 borderColor: 'rgba(34,34,34, 1)', // Usa los datos numéricos dinámicos

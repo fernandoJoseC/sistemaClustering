@@ -93,6 +93,13 @@ class Clustering():
         self.filtered_data = data[data[group_by_column] == self.cluster]
         self.lista = self.filtered_data.groupby(target_column)[value_column].mean().reset_index()
         return self.lista
+    
+    def calculate_average_difference_by_nom_ent(self, data, num, group_by_column='cluster', target_column='nomEnt', value_column='diferencia'):
+        
+        self.cluster = num
+        self.filtered_data = data[data[group_by_column] == self.cluster]
+        self.lista = self.filtered_data.groupby(target_column)[value_column].mean().reset_index()
+        return self.lista
 
     def data_to_list(self, data,group_by_column):
         self.lista = data[group_by_column].tolist()
