@@ -675,8 +675,6 @@ def prediccionView(request):
             #scaled_df = pd.DataFrame(scaled)
 
             reframed = series_to_supervised(scaled, n_in, n_out)
-            #reframed = series_to_supervised(values, n_in, n_out)
-
 
             reframed.drop(reframed.columns[[-2, -3,-4,-5,-6]], axis=1, inplace=True)
             from pathlib import Path
@@ -695,33 +693,30 @@ def prediccionView(request):
             test_X = test_X.reshape((test_X.shape[0], n_in, test_X.shape[1] // n_in))
 
 
-            #from keras.models import load_model
             
-            #import keras
 
-            #modelo_cargado = tf.keras.models.load_model('media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5')
-            #print(modelo_cargado.summary())
+            '''modelo_cargado = load_model('media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5')
+            print(modelo_cargado.summary())
             
-            #print(Path(__file__).parents[1]/'media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5')
-            #modelo_cargado = keras.load_model(Path(__file__).parents[1]/'media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5')
-            #print(modelo_cargado)
+            print(Path(__file__).parents[1]/'media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5')
+            modelo_cargado = keras.load_model(Path(__file__).parents[1]/'media/docs/modelo_CLUSTER_LSTM_DATOS20212223v2.h5')
 
             # Generar predicciones
-            #predictions = modelo_cargado.predict(test_X)
-           # print(predictions)
+            predictions = modelo_cargado.predict(test_X)
+            print(predictions)
 
 
             from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-            '''mse = mean_squared_error(test_y, predictions)
+            mse = mean_squared_error(test_y, predictions)
             rmse = mean_squared_error(test_y, predictions, squared=False)
             mae = mean_absolute_error(test_y, predictions)
-            r2 = r2_score(test_y, predictions)'''
+            r2 = r2_score(test_y, predictions)
 
             print(f"MSE: {mse}")
             print(f"RMSE: {rmse}")
             print(f"MAE: {mae}")
-            print(f"R^2: {r2}")
+            print(f"R^2: {r2}")'''
 
 
 

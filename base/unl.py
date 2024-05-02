@@ -18,15 +18,15 @@ class TestUnl():
 
   def __init__(self):
     #self.options.add_experimental_option("detach", True)
-    self.google_chrome_bin = os.environ.get("GOOGLE_CHROME_BIN", "chromedriver")
-    self.chrome_driver_path = os.environ.get("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
+    #self.google_chrome_bin = os.environ.get("GOOGLE_CHROME_BIN", "chromedriver")
+    #self.chrome_driver_path = os.environ.get("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
 
     self.options = webdriver.ChromeOptions()
 
-    self.options.binary_location = self.google_chrome_bin
-    self.options.add_extension(self.chrome_driver_path)
-    self.options.add_argument("--no-sandbox")
-    self.options.add_argument("--headless")
+    #self.options.binary_location = self.google_chrome_bin
+    #self.options.add_extension(self.chrome_driver_path)
+    #self.options.add_argument("--no-sandbox")
+    #self.options.add_argument("--headless")
 
     #self.options.enable_downloads = True
     self.driver = webdriver.Chrome(options=self.options)
