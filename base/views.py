@@ -47,7 +47,7 @@ provincias = {
                 "ZAMORA CHINCHIPE": {"latitud": -4.083333, "longitud": -78.916667},
             }
 
-@login_required
+#@login_required
 def home(request):
     model_cluster = Clustering()
     if request.method == "POST":
